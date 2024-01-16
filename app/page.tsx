@@ -1,12 +1,26 @@
+"use client"
+
 import {getData} from "@/src/services/ApiServices";
+import {useEffect, useState} from "react";
 
 type Data = {
     datetime: string
     value: number
 }
 
-const Home = async () => {
-    const data: Data[] = await getData({url: "location"})
+const Home = () => {
+    const [data, setData] = useState<Data[]>([])
+
+    useEffect(() => {
+        const loadData = async () => {
+            const data: Data[] = await getData({url: "location"})
+            setData(data)
+        }
+
+        void loadData()
+
+    }, [])
+
 
     return (
         <>
@@ -16,5 +30,4 @@ const Home = async () => {
     )
 }
 
-export const dynamic = 'force-dynamic'
 export default Home
