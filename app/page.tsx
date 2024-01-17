@@ -1,8 +1,12 @@
 import {Metadata} from "next";
+import Link from "next/link";
 
 import {getLocations} from "@/src/services/locationServices";
+
 import {Location} from "@/src/domain/location";
-import Link from "next/link";
+
+import Header from "@/src/components/header";
+import Body from "@/src/components/body";
 
 export const metadata: Metadata = {
     title: "Locations",
@@ -14,12 +18,15 @@ const Home = async () => {
 
     return (
         <>
-            <div>Home</div>
-            {data.map(l => <div key={l.name}>
-                <Link href={`/location/${l.id}`}>
-                    {l.name} - {l.url}
-                </Link>
-            </div>)}
+            <Header title="Locations"/>
+
+            <Body>
+                {data.map(l => <div key={l.name}>
+                    <Link href={`/location/${l.id}`}>
+                        {l.name} - {l.url}
+                    </Link>
+                </div>)}
+            </Body>
         </>
     )
 }

@@ -1,0 +1,11 @@
+.container {
+    @apply m-2;
+}
+
+.link {
+    @apply text-blue-800 underline;
+}
+
+.title {
+    @apply text-2xl;
+}

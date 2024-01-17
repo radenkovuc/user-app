@@ -1,8 +1,12 @@
 import {notFound} from "next/navigation";
 
 import {getLocation, getLocationData} from "@/src/services/locationServices";
+
 import {Data} from "@/src/domain/data";
 import {Location} from "@/src/domain/location";
+
+import Header from "@/src/components/header";
+import Body from "@/src/components/body";
 
 export async function generateMetadata({params}: Props) {
     const location: Location | null = await getLocation(params.id)
@@ -11,7 +15,7 @@ export async function generateMetadata({params}: Props) {
         notFound()
     }
     return {
-        title: location?.name,
+        title: location.name,
         description: "Data for selected location"
     }
 }
@@ -32,8 +36,10 @@ const Location = async ({params}: Props) => {
 
     return (
         <>
-            <div>{location.name}</div>
-            {data.map(d => <div key={d.datetime}>{d.datetime} - {d.value}</div>)}
+            <Header title={location.name}/>
+            <Body>
+                {data.map(d => <div key={d.datetime}>{d.datetime} - {d.value}</div>)}
+            </Body>
         </>
     )
 }
