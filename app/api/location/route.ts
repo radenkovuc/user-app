@@ -29,7 +29,7 @@ export async function GET() {
     console.log("Location call")
 
     try {
-        const dataRaw = await fetch("http://81.93.72.16/dist/examples/ahsDelSelo_temperatura.php")
+        const dataRaw = await fetch("http://81.93.72.16/dist/examples/ahsDelSelo_temperatura.php", {cache: "no-cache"})
         const body = await dataRaw.text()
         return NextResponse.json(getData(body), {status: 200})
     } catch (e) {
