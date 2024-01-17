@@ -22,7 +22,7 @@ const Home = async () => {
 
             <Body>
                 {data.map(l => <div key={l.name}>
-                    <Link href={`/location/${l.id}`}>
+                    <Link href={`/location/${l._id}`}>
                         {l.name} - {l.url}
                     </Link>
                 </div>)}

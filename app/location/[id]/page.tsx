@@ -32,7 +32,7 @@ const Location = async ({params}: Props) => {
     if (!location) {
         notFound()
     }
-    const data: Data[] = await getLocationData(location.url)
+    const data: Data[] = await getLocationData(location)
 
     return (
         <>
