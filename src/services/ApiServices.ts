@@ -3,7 +3,7 @@ interface GetDataProps {
     params?: any
 }
 
-export const getData = async <T>({params, url}: GetDataProps): Promise<T[]> => {
+export const getData = async <T>({ url}: GetDataProps): Promise<T[]> => {
     const result = await fetch(`/api/${url}`);
     return await result.json()
 }

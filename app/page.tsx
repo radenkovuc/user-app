@@ -1,26 +1,8 @@
-"use client"
+import {getLocationData} from "@/src/services/LocationServices";
+import {Data} from "@/src/domain/Data";
 
-import {getData} from "@/src/services/ApiServices";
-import {useEffect, useState} from "react";
-
-type Data = {
-    datetime: string
-    value: number
-}
-
-const Home = () => {
-    const [data, setData] = useState<Data[]>([])
-
-    useEffect(() => {
-        const loadData = async () => {
-            const data: Data[] = await getData({url: "location"})
-            setData(data)
-        }
-
-        void loadData()
-
-    }, [])
-
+const Home = async () => {
+    const data: Data[] = await getLocationData()
 
     return (
         <>

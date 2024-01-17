@@ -1,9 +1,4 @@
-import {NextResponse} from "next/server";
-
-type Data = {
-    datetime: string
-    value: number
-}
+import {Data} from "@/src/domain/Data";
 
 const getData = (scriptText: string): Data[] => {
     // Regular expression to extract the date-time and numerical values from niz.push lines
@@ -25,15 +20,8 @@ const getData = (scriptText: string): Data[] => {
     }
 }
 
-export async function GET() {
-    console.log("Location call")
-
-    try {
-        const dataRaw = await fetch("http://81.93.72.16/dist/examples/ahsDelSelo_temperatura.php", {cache: "no-cache"})
-        const body = await dataRaw.text()
-        return NextResponse.json(getData(body), {status: 200})
-    } catch (e) {
-        return NextResponse.json({message: "Error"}, {status: 400})
-    }
-
+export const getLocationData = async (): Promise<Data[]> => {
+    const dataRaw = await fetch("http://81.93.72.16/dist/examples/ahsDelSelo_temperatura.php", {cache: "no-cache"})
+    const body = await dataRaw.text()
+    return getData(body)
 }
