@@ -1,6 +1,6 @@
 import {notFound} from "next/navigation";
 
-import {getLocation, getLocationData} from "@/src/services/locationServices";
+import {getLocation, getLocationData} from "@/src/services/dbServices";
 
 import {Data} from "@/src/domain/data";
 import {Location} from "@/src/domain/location";

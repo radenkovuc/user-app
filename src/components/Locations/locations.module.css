@@ -1,0 +1,15 @@
+.locations {
+    @apply m-2 flex flex-col;
+}
+
+.location {
+    @apply flex p-1;
+}
+
+.locationLink {
+    @apply mx-2;
+}
+
+.deleteLink {
+    @apply text-blue-800 underline cursor-pointer;
+}
