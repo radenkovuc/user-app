@@ -14,6 +14,6 @@ export const SingleLocation = ({location}: Props) => (
         <Link className={classes.locationLink} href={`/location/${location._id}`}>
             {location.name}
         </Link>
-        <LocationActions id={location._id.toString()}/>
+        <LocationActions id={location._id.toString()} url={location.url}/>
     </div>
 )

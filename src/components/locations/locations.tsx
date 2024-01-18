@@ -7,7 +7,6 @@ import classes from "./locations.module.css";
 export const Locations = async () => {
     const locations: Location[] = await getLocations()
 
-
     return <div className={classes.locations}>
         {locations.map(location =>
             <SingleLocation key={location._id.toString()} location={location}/>)}

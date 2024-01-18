@@ -2,8 +2,7 @@ import {Metadata} from "next";
 
 import Header from "@/src/components/header";
 import Body from "@/src/components/body";
-import Locations from "@/src/components/Locations";
-import {addLocation} from "@/src/services/dbServices";
+import Locations from "@/src/components/locations";
 
 export const metadata: Metadata = {
     title: "Locations",
