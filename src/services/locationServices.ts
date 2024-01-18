@@ -25,7 +25,7 @@ const getData = (scriptText: string, locationId: ObjectId): Data[] => {
 }
 
 export const getLocationDataFromUrl = async (location: Location): Promise<Data[]> => {
-    const dataRaw = await fetch(location.url)
+    const dataRaw = await fetch(location.url, {cache: "no-cache"})
     const body = await dataRaw.text()
 
     return getData(body, location._id)
