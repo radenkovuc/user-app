@@ -1,5 +1,7 @@
 "use client"
 
+import {Button} from "@mui/material";
+
 import classes from "./locations.module.css";
 
 interface Props {
@@ -15,7 +17,10 @@ export const LocationActions = ({id, url}: Props) => {
     }
 
     return <div className={classes.actions}>
-        <a className={classes.link} href={url} target="_blank">Link</a>
-        <div className={classes.link} onClick={onClick}>Delete</div>
+
+        <Button>
+            <a href={url} target="_blank">Link</a>
+        </Button>
+        <Button onClick={onClick}>Delete</Button>
     </div>
 }

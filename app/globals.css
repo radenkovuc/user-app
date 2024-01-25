@@ -2,3 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
+a {
+    @apply no-underline text-inherit;
+}

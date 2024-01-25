@@ -1,4 +1,5 @@
 import {NextResponse} from "next/server";
+
 import {getLocationData, getLocations} from "@/src/services/dbServices";
 import {Data} from "@/src/domain/data";
 

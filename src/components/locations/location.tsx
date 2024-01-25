@@ -1,4 +1,5 @@
 import Link from "next/link";
+import {Typography} from "@mui/material";
 
 import {Location} from "@/src/domain/location";
 
@@ -12,7 +13,7 @@ interface Props {
 export const SingleLocation = ({location}: Props) => (
     <div className={classes.location}>
         <Link className={classes.locationLink} href={`/location/${location._id}`}>
-            {location.name}
+            <Typography variant="subtitle1">{location.name}</Typography>
         </Link>
         <LocationActions id={location._id.toString()} url={location.url}/>
     </div>

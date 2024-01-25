@@ -3,7 +3,7 @@
 }
 
 .location {
-    @apply flex p-1;
+    @apply flex items-center p-1;
 }
 
 .locationLink {

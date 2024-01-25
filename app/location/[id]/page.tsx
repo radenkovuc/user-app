@@ -1,4 +1,5 @@
 import {notFound} from "next/navigation";
+import {Typography} from "@mui/material";
 
 import {getLocation, getLocationData} from "@/src/services/dbServices";
 
@@ -38,7 +39,7 @@ const Location = async ({params}: Props) => {
         <>
             <Header title={location.name}/>
             <Body>
-                {data.map(d => <div key={d.datetime}>{d.datetime} - {d.value}</div>)}
+                {data.map(d => <Typography key={d.datetime}>{d.datetime} - {d.value}</Typography>)}
             </Body>
         </>
     )
