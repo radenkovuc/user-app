@@ -4,6 +4,7 @@ import {MongoClient, ObjectId} from "mongodb";
 
 import {Data} from "@/src/domain/data";
 import {Location} from "@/src/domain/location";
+import {DailyData} from "@/src/domain/dailyData";
 
 import {getLocationDataFromUrl} from "@/src/services/locationServices";
 import {revalidatePath} from "next/cache";
@@ -61,4 +62,35 @@ export const deleteLocation = async (id: string) => {
     await client.db().collection<Data>("data").deleteMany({"locationId": new ObjectId(id)})
     void client.close()
     revalidatePath("/", "page")
+}
+
+
+
+export const getLocationsDataByDate = async (id: string): Promise<DailyData[]> => {
+    const client = await connectToDatabase()
+    let locations: DailyData[] = await client.db().collection<Location>("data").aggregate<DailyData>([
+        {
+            $addFields: {
+                datetime: {$toDate: "$datetime"} // Convert the date field from string to date type
+            }
+        },
+        {
+            $match: {
+                locationId: new ObjectId(id)
+            }
+        },
+        {
+            $group: {
+                _id: {$dateToString: {format: "%Y-%m-%d", date: "$datetime"}},
+                max_value: {$max: "$value"},
+                min_value: {$min: "$value"}
+            }
+        },
+        {
+            $sort: {"_id": 1} // Optional: Sort the results by date
+        }
+    ]).toArray()
+    void client.close()
+
+    return locations;
 }
