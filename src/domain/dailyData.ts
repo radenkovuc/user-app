@@ -1,5 +1,5 @@
 export type DailyData = {
-    _id: string,
+    date: string,
     max_value: string
     min_value: string
 }

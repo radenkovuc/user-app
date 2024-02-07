@@ -65,7 +65,6 @@ export const deleteLocation = async (id: string) => {
 }
 
 
-
 export const getLocationsDataByDate = async (id: string): Promise<DailyData[]> => {
     const client = await connectToDatabase()
     let locations: DailyData[] = await client.db().collection<Location>("data").aggregate<DailyData>([
@@ -87,7 +86,14 @@ export const getLocationsDataByDate = async (id: string): Promise<DailyData[]> =
             }
         },
         {
-            $sort: {"_id": 1} // Optional: Sort the results by date
+            $project: {
+                date: "$_id",
+                max_value: 1,
+                min_value: 1
+            }
+        },
+        {
+            $sort: {"date": 1} // Sort the results by date
         }
     ]).toArray()
     void client.close()

@@ -8,6 +8,7 @@ import {Location} from "@/src/domain/location";
 
 import Header from "@/src/components/header";
 import Body from "@/src/components/body";
+import {DailyData} from "@/src/components/location/dailyData";
 
 export async function generateMetadata({params}: Props) {
     const location: Location | null = await getLocation(params.id)
@@ -34,14 +35,12 @@ const Location = async ({params}: Props) => {
         notFound()
     }
     const data: Data[] = await getLocationData(location)
-    const dataByDate = await getLocationsDataByDate(params.id)
 
     return (
         <>
             <Header title={location.name}/>
             <Body>
-                <Typography>Daily:</Typography>
-                {dataByDate.map(d => <Typography key={d._id}>{d._id}: {d.min_value} - {d.max_value}</Typography>)}
+                <DailyData id={params.id}/>
                 <Typography>All data:</Typography>
                 {data.map(d => <Typography key={d.datetime}>{d.datetime} - {d.value}</Typography>)}
             </Body>
