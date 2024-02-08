@@ -40,7 +40,7 @@ const Location = async ({params}: Props) => {
         <>
             <Header title={location.name}/>
             <Body>
-                <DailyData id={params.id}/>
+                <DailyData id={params.id} data={data}/>
                 <Typography>All data:</Typography>
                 {data.map(d => <Typography key={d.datetime}>{d.datetime} - {d.value}</Typography>)}
             </Body>

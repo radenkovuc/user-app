@@ -16,7 +16,7 @@ export const connectToDatabase = async (): Promise<MongoClient> => {
 export const getLocationData = async (location: Location): Promise<Data[]> => {
     const client = await connectToDatabase()
     const db = client.db()
-    const dbData: Data[] = await db.collection<Data>("data").find({locationId: location._id}, {sort: [["datetime", "desc"]]}).toArray()
+    const dbData: Data[] = await db.collection<Data>("data").find({locationId: location._id}, {sort: [["datetime", "asc"]]}).toArray()
 
     let newData = await getLocationDataFromUrl(location)
     newData = newData.filter(d => !dbData.some(db => db.datetime == d.datetime))
@@ -75,7 +75,8 @@ export const getLocationsDataByDate = async (id: string): Promise<DailyData[]> =
         },
         {
             $match: {
-                locationId: new ObjectId(id)
+                locationId: new ObjectId(id),
+                value: {$gt: -1000},
             }
         },
         {
