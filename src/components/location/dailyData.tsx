@@ -1,18 +1,18 @@
 import {Typography} from "@mui/material";
 
 import {getLocationsDataByDate} from "@/src/services/dbServices";
-import {DailyChart} from "@/src/components/location/dailyChart";
-
-import classes from "./location.module.css";
 import {Data} from "@/src/domain/data";
+
+import {DailyChart} from "@/src/components/location/dailyChart";
 import {TotalChart} from "@/src/components/location/totalChart";
+import classes from "./location.module.css";
 
 interface Props {
     id: string
-    data:Data[]
+    data: Data[]
 }
 
-export const DailyData = async ({id,data}: Props) => {
+export const DailyData = async ({id, data}: Props) => {
     const dataByDate = await getLocationsDataByDate(id)
 
     return (
@@ -21,6 +21,8 @@ export const DailyData = async ({id,data}: Props) => {
             <DailyChart dataByDate={dataByDate}/>
             <Typography>Total :</Typography>
             <TotalChart data={data}/>
+            <Typography>Total last 7 days:</Typography>
+            <TotalChart data={data.slice(-1 * 7 * 48)}/>
         </div>
     )
 }

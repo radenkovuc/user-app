@@ -1,13 +1,13 @@
 "use server"
 
 import {MongoClient, ObjectId} from "mongodb";
+import {revalidatePath} from "next/cache";
 
 import {Data} from "@/src/domain/data";
 import {Location} from "@/src/domain/location";
 import {DailyData} from "@/src/domain/dailyData";
 
 import {getLocationDataFromUrl} from "@/src/services/locationServices";
-import {revalidatePath} from "next/cache";
 
 export const connectToDatabase = async (): Promise<MongoClient> => {
     return await MongoClient.connect(process.env.MONGODB_URI || "");
@@ -17,6 +17,16 @@ export const getLocationData = async (location: Location): Promise<Data[]> => {
     const client = await connectToDatabase()
     const db = client.db()
     const dbData: Data[] = await db.collection<Data>("data").find({locationId: location._id}, {sort: [["datetime", "asc"]]}).toArray()
+
+    void client.close()
+
+    return dbData
+}
+
+export const updateLocationData = async (location: Location): Promise<{ new: number, old: number }> => {
+    const client = await connectToDatabase()
+    const db = client.db()
+    const dbData: Data[] = await db.collection<Data>("data").find({locationId: new ObjectId(location._id)}, {sort: [["datetime", "asc"]]}).toArray()
 
     let newData = await getLocationDataFromUrl(location)
     newData = newData.filter(d => !dbData.some(db => db.datetime == d.datetime))
@@ -29,7 +39,10 @@ export const getLocationData = async (location: Location): Promise<Data[]> => {
 
     void client.close()
 
-    return [...newData, ...dbData]
+    return {
+        new: newData.length,
+        old: dbData.length
+    }
 }
 
 export const getLocation = async (id: string): Promise<Location | null> => {

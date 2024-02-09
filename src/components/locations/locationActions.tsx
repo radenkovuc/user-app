@@ -1,6 +1,7 @@
 "use client"
 
 import {Button} from "@mui/material";
+import Link from "next/link";
 
 import classes from "./locations.module.css";
 
@@ -19,7 +20,7 @@ export const LocationActions = ({id, url}: Props) => {
     return <div className={classes.actions}>
 
         <Button>
-            <a href={url} target="_blank">Link</a>
+            <Link href={url} target="_blank">Link</Link>
         </Button>
         <Button onClick={onClick}>Delete</Button>
     </div>

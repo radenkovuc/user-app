@@ -16,7 +16,7 @@ const getData = (scriptText: string, locationId: ObjectId): Data[] => {
         return matches.map(match => ({
             datetime: match[1],
             value: parseFloat(match[2]),
-            locationId
+            locationId: new ObjectId(locationId)
         }))
     } else {
         console.error('Failed to extract data from the niz.push lines in the HTML text.');

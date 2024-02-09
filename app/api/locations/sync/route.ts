@@ -1,14 +1,14 @@
 import {NextResponse} from "next/server";
 
-import {getLocationData, getLocations} from "@/src/services/dbServices";
-import {Data} from "@/src/domain/data";
+import {getLocations, updateLocationData} from "@/src/services/dbServices";
+import {UpdatedLocation} from "@/src/domain/updatedLocation";
 
 export async function GET() {
-    const allData: Data[][] = []
+    const allData: UpdatedLocation[] = []
     const locations = await getLocations()
     for (const location of locations) {
-        const data = await getLocationData(location)
-        allData.push(data)
+        const data = await updateLocationData(location)
+        allData.push({name: location.name, old: data.old, new: data.new})
     }
 
     return NextResponse.json({message: "SYNC DONE", allData}, {status: 200})
