@@ -15,6 +15,6 @@ export const SingleLocation = ({location}: Props) => (
         <Link className={classes.locationLink} href={`/location/${location._id}`}>
             <Typography variant="subtitle1">{location.name}</Typography>
         </Link>
-        <LocationActions id={location._id.toString()} url={location.url}/>
+        <LocationActions location={location}/>
     </div>
 )

@@ -8,6 +8,7 @@ import {Location} from "@/src/domain/location";
 import Header from "@/src/components/header";
 import Body from "@/src/components/body";
 import {DailyData} from "@/src/components/location/dailyData";
+import {LocationActions} from "@/src/components/location/locationActions";
 
 export async function generateMetadata({params}: Props) {
     const location: Location | null = await getLocation(params.id)
@@ -37,7 +38,7 @@ const Location = async ({params}: Props) => {
 
     return (
         <>
-            <Header title={location.name}/>
+            <Header title={location.name} actions={<LocationActions location={location}/>}/>
             <Body>
                 <DailyData id={params.id} data={data}/>
             </Body>

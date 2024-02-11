@@ -6,6 +6,10 @@
     @apply text-blue-800 underline;
 }
 
+.headerContainer {
+    @apply flex;
+}
+
 .title {
     @apply text-2xl;
 }

@@ -15,5 +15,5 @@
 }
 
 .actions {
-    @apply flex;
+    @apply flex items-center;
 }
