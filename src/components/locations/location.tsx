@@ -12,7 +12,7 @@ interface Props {
 
 export const SingleLocation = ({location}: Props) => (
     <div className={classes.location}>
-        <Link className={classes.locationLink} href={`/location/${location._id}`}>
+        <Link className={classes.locationLink} href={`/location/${location.id}`}>
             <Typography variant="subtitle1">{location.name}</Typography>
         </Link>
         <LocationActions location={location}/>

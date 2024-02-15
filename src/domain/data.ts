@@ -1,7 +1,5 @@
-import {ObjectId} from "mongodb";
-
 export type Data = {
-    locationId: ObjectId,
+    locationId: string,
     datetime: string
     value: number
 }

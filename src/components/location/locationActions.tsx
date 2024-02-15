@@ -1,12 +1,12 @@
 "use client"
 
 import {useState} from "react";
+import {useRouter} from "next/navigation";
 import {Button, Typography} from "@mui/material";
 
 import {Location} from "@/src/domain/location";
 import {updateLocationData} from "@/src/services/dbServices";
 import Snackbar from "@/src/components/common/snackbar/snackbar";
-
 
 interface Props {
     location: Location,
@@ -15,6 +15,7 @@ interface Props {
 export const LocationActions = ({location}: Props) => {
     const [newData, setNewData] = useState<number | null>(null)
     const [open, setOpen] = useState(false);
+    const router = useRouter();
 
     const handleClose = () => {
         setOpen(false);
@@ -25,6 +26,7 @@ export const LocationActions = ({location}: Props) => {
         setNewData(newData.new)
         setOpen(true)
         console.log('onUpdate')
+        router.refresh()
     }
 
     return <div>
@@ -32,6 +34,5 @@ export const LocationActions = ({location}: Props) => {
             <Typography>Update</Typography>
         </Button>
         <Snackbar handleClose={handleClose} open={open} newData={newData}/>
-
     </div>
 }

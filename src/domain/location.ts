@@ -1,7 +1,5 @@
-import { ObjectId } from "mongodb";
-
 export type Location = {
-    _id: ObjectId,
+    id: string,
     name: string
     url: string
 }

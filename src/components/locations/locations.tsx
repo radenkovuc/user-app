@@ -9,6 +9,6 @@ export const Locations = async () => {
 
     return <div className={classes.locations}>
         {locations.map(location =>
-            <SingleLocation key={location._id.toString()} location={location}/>)}
+            <SingleLocation key={location.id} location={location}/>)}
     </div>
 }

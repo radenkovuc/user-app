@@ -33,7 +33,7 @@ export const LocationActions = ({location}: Props) => {
             <Typography>Update</Typography>
         </Button>
         <Button>
-            <Link className={classes.locationLink} href={`/location/${location._id}`}>
+            <Link className={classes.locationLink} href={`/location/${location.id}`}>
                 <Typography>Open</Typography>
             </Link>
         </Button>

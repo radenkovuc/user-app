@@ -35,10 +35,11 @@ const Location = async ({params}: Props) => {
         notFound()
     }
     const data: Data[] = await getLocationData(location)
+    const title = location.name + " - last update: " + data[data.length - 1].datetime
 
     return (
         <>
-            <Header title={location.name} actions={<LocationActions location={location}/>}/>
+            <Header title={title} actions={<LocationActions location={location}/>}/>
             <Body>
                 <DailyData id={params.id} data={data}/>
             </Body>
