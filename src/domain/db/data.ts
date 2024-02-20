@@ -1,7 +1,7 @@
 import {ObjectId} from "mongodb";
 
 export type DBData = {
-    locationId: ObjectId,
+    sourceId: ObjectId,
     datetime: string
     value: number
 }

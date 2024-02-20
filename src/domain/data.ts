@@ -1,5 +1,5 @@
 export type Data = {
-    locationId: string,
+    sourceId: string,
     datetime: string
     value: number
 }

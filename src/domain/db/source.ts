@@ -1,8 +1,7 @@
 import { ObjectId } from "mongodb";
 
-export type DBLocation = {
+export type DBSource = {
     _id: ObjectId,
     name: string
-    temperatureUrl: string
-    highUrl: string
+    url: string
 }

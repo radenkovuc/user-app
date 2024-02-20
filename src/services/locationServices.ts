@@ -1,10 +1,9 @@
 import {ObjectId} from "mongodb";
 
-import {Data} from "@/src/domain/data";
-import {Location} from "@/src/domain/location";
+import {Source} from "@/src/domain/source";
 import {DBData} from "@/src/domain/db/data";
 
-const getData = (scriptText: string, locationId: string): DBData[] => {
+const getData = (scriptText: string, sourceId: string): DBData[] => {
     // Regular expression to extract the date-time and numerical values from niz.push lines
     const nizPushRegex = /niz\.push\(\['(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})',\s*(-?\d+(\.\d+)?)\]\);/g;
 
@@ -17,7 +16,7 @@ const getData = (scriptText: string, locationId: string): DBData[] => {
         return matches.map(match => ({
             datetime: match[1],
             value: parseFloat(match[2]),
-            locationId: new ObjectId(locationId)
+            sourceId: new ObjectId(sourceId)
         }))
     } else {
         console.error('Failed to extract data from the niz.push lines in the HTML text.');
@@ -25,9 +24,9 @@ const getData = (scriptText: string, locationId: string): DBData[] => {
     }
 }
 
-export const getLocationDataFromUrl = async (location: Location): Promise<DBData[]> => {
-    const dataRaw = await fetch(location.url, {cache: "no-cache"})
+export const getSourceDataFromUrl = async (source: Source): Promise<DBData[]> => {
+    const dataRaw = await fetch(source.url, {cache: "no-cache"})
     const body = await dataRaw.text()
 
-    return getData(body, location.id)
+    return getData(body, source.id)
 }

@@ -1,16 +1,16 @@
 import {DBData} from "@/src/domain/db/data";
 import {Data} from "@/src/domain/data";
-import {DBLocation} from "@/src/domain/db/location";
-import {Location} from "@/src/domain/location";
+import {Source} from "@/src/domain/source";
+import {DBSource} from "@/src/domain/db/source";
 
 export const mapData = (data: DBData): Data => ({
     datetime: data.datetime,
     value: data.value,
-    locationId: data.locationId.toString()
+    sourceId: data.sourceId.toString()
 })
 
-export const mapLocation = (location: DBLocation): Location => ({
-    name: location.name,
-    url: location.url,
-    id: location._id.toString()
+export const mapSource = (source: DBSource): Source => ({
+    name: source.name,
+    url: source.url,
+    id: source._id.toString()
 })

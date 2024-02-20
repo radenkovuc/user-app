@@ -5,7 +5,7 @@ import {useRouter} from "next/navigation";
 import {Button, Typography} from "@mui/material";
 
 import {Location} from "@/src/domain/location";
-import {updateLocationData} from "@/src/services/dbServices";
+import {updateSourceData} from "@/src/services/dbServices";
 import Snackbar from "@/src/components/common/snackbar/snackbar";
 
 interface Props {
@@ -22,7 +22,7 @@ export const LocationActions = ({location}: Props) => {
     };
 
     const onUpdate = async () => {
-        const newData = await updateLocationData(location)
+        const newData = await updateSourceData(location)
         setNewData(newData.new)
         setOpen(true)
         console.log('onUpdate')

@@ -5,7 +5,7 @@ import {Button} from "@mui/material";
 import {Location} from "@/src/domain/location";
 import {UpdatedLocation} from "@/src/domain/updatedLocation";
 
-import {updateLocationData} from "@/src/services/dbServices";
+import {updateSourceData} from "@/src/services/dbServices";
 
 import {UpdatedLocations} from "@/src/components/locations/updatedLocations";
 
@@ -18,7 +18,7 @@ export const UpdateLocations = ({locations}: Props) => {
     const [loading, setLoading] = useState(false)
 
     const update = async (l: Location) => {
-        const newData = await updateLocationData(l)
+        const newData = await updateSourceData(l)
         setUpdatedLocations(updatedLocations => [...updatedLocations, {
             name: l.name,
             old: newData.old,

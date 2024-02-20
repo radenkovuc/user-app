@@ -5,7 +5,7 @@ import Link from "next/link";
 import {Button, Typography} from "@mui/material";
 
 import {Location} from "@/src/domain/location";
-import {updateLocationData} from "@/src/services/dbServices";
+import {updateSourceData} from "@/src/services/dbServices";
 
 import classes from "./locations.module.css";
 
@@ -17,7 +17,7 @@ export const LocationActions = ({location}: Props) => {
     const [newData, setNewData] = useState<number | null>(null)
 
     const onUpdate = async () => {
-        const newData = await updateLocationData(location)
+        const newData = await updateSourceData(location)
         setNewData(newData.new)
         console.log('onUpdate')
     }

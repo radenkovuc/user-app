@@ -5,7 +5,7 @@ import Body from "@/src/components/body";
 import Locations from "@/src/components/locations";
 import {UpdateLocations} from "@/src/components/locations/updateLocations";
 import {Location} from "@/src/domain/location";
-import {getLocations} from "@/src/services/dbServices";
+import {getSources} from "@/src/services/dbServices";
 
 export const metadata: Metadata = {
     title: "Locations",
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 const Home = async () => {
     // void addLocation("Test", 'http://81.93.72.16/dist/examples/ahsVolari_vodostaj.php')
-    const locations: Location[] = await getLocations()
+    const locations: Location[] = await getSources()
 
 
     return (

@@ -1,19 +1,21 @@
 import {Typography} from "@mui/material";
 
-import {getLocationsDataByDate} from "@/src/services/dbServices";
+import {getSourceData, getSourceDataByDate} from "@/src/services/dbServices";
 import {Data} from "@/src/domain/data";
+import {DailyData as DData} from "@/src/domain/dailyData";
 
 import {DailyChart} from "@/src/components/location/dailyChart";
 import {TotalChart} from "@/src/components/location/totalChart";
+
 import classes from "./location.module.css";
 
 interface Props {
     id: string
-    data: Data[]
 }
 
-export const DailyData = async ({id, data}: Props) => {
-    const dataByDate = await getLocationsDataByDate(id)
+export const DailyData = async ({id}: Props) => {
+    const dataByDate: DData[] = await getSourceDataByDate(id)
+    const data: Data[] = await getSourceData(id)
 
     return (
         <div className={classes.dailyData}>

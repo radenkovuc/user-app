@@ -1,6 +1,6 @@
 import {notFound} from "next/navigation";
 
-import {getLocation, getLocationData} from "@/src/services/dbServices";
+import {getSource, getSourceData} from "@/src/services/dbServices";
 
 import {Data} from "@/src/domain/data";
 import {Location} from "@/src/domain/location";
@@ -11,7 +11,7 @@ import {DailyData} from "@/src/components/location/dailyData";
 import {LocationActions} from "@/src/components/location/locationActions";
 
 export async function generateMetadata({params}: Props) {
-    const location: Location | null = await getLocation(params.id)
+    const location: Location | null = await getSource(params.id)
 
     if (!location) {
         notFound()
@@ -29,19 +29,19 @@ interface Props {
 }
 
 const Location = async ({params}: Props) => {
-    const location: Location | null = await getLocation(params.id)
+    const location: Location | null = await getSource(params.id)
 
     if (!location) {
         notFound()
     }
-    const data: Data[] = await getLocationData(location)
+    const data: Data[] = await getSourceData(location.id)
     const title = location.name + " - last update: " + data[data.length - 1].datetime
 
     return (
         <>
             <Header title={title} actions={<LocationActions location={location}/>}/>
             <Body>
-                <DailyData id={params.id} data={data}/>
+                <DailyData id={params.id}/>
             </Body>
         </>
     )
