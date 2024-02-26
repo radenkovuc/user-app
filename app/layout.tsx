@@ -2,6 +2,10 @@ import type {Metadata} from 'next'
 import {ReactNode} from "react";
 import {AppRouterCacheProvider} from '@mui/material-nextjs/v14-appRouter';
 
+import {StoreProvider} from "@/app/StoreProvider";
+
+import Snackbar from "@/src/components/common/snackbar";
+
 import './globals.css'
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -21,7 +25,10 @@ const RootLayout = ({children}: Props) => (
     <html lang="en">
     <body>
     <AppRouterCacheProvider options={{enableCssLayer: true}}>
-        {children}
+        <StoreProvider>
+            {children}
+            <Snackbar/>
+        </StoreProvider>
     </AppRouterCacheProvider>
     </body>
     </html>

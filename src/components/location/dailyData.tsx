@@ -1,8 +1,9 @@
+'use client'
 import {Typography} from "@mui/material";
+import {useEffect} from "react";
 
-import {getSourceData, getSourceDataByDate} from "@/src/services/dbServices";
-import {Data} from "@/src/domain/data";
-import {DailyData as DData} from "@/src/domain/dailyData";
+import {useAppDispatch, useAppSelector} from "@/src/store";
+import {loadLocationData} from "@/src/services/stateServices";
 
 import {DailyChart} from "@/src/components/location/dailyChart";
 import {TotalChart} from "@/src/components/location/totalChart";
@@ -13,14 +14,19 @@ interface Props {
     id: string
 }
 
-export const DailyData = async ({id}: Props) => {
-    const dataByDate: DData[] = await getSourceDataByDate(id)
-    const data: Data[] = await getSourceData(id)
+export const DailyData = ({id}: Props) => {
+    const data = useAppSelector(s => s.location.data)
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        void loadLocationData(id, dispatch)
+    }, [dispatch, id])
+
 
     return (
         <div className={classes.dailyData}>
             <Typography>Daily min-max:</Typography>
-            <DailyChart dataByDate={dataByDate}/>
+            <DailyChart/>
             <Typography>Total :</Typography>
             <TotalChart data={data}/>
             <Typography>Total last 7 days:</Typography>

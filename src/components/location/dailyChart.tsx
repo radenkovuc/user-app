@@ -1,18 +1,15 @@
-'use client'
 import {LineChart} from '@mui/x-charts/LineChart';
 
-import {DailyData} from "@/src/domain/dailyData";
-
-interface Props {
-    dataByDate: DailyData[]
-}
+import {useAppSelector} from "@/src/store";
 
 const parseValue = (data: string): number | null => {
     const value = Number.parseFloat(data)
     return value < -1000 ? null : value
 }
 
-export const DailyChart = ({dataByDate}: Props) => {
+export const DailyChart = () => {
+    const dataByDate = useAppSelector(s => s.location.dataByDate)
+
     return (
         <LineChart
             xAxis={[{scaleType: 'point', data: dataByDate.map(d => d.date.substring(5))}]}

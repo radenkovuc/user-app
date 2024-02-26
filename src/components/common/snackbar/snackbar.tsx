@@ -1,30 +1,30 @@
+'use client'
 import {useSnackbar} from '@mui/base/useSnackbar';
 import {ClickAwayListener} from '@mui/base/ClickAwayListener';
 import {Typography} from "@mui/material";
 
+import {closeMessage, useAppDispatch, useAppSelector} from "@/src/store";
+
 import classes from "./snackbar.module.css";
 
-interface Props {
-    newData: number | null
-    open: boolean
-    handleClose: () => void
-}
+export const Snackbar = () => {
+    const {isOpen, message} = useAppSelector(s => s.message)
+    const dispatch = useAppDispatch();
 
-export default function Snackbar({newData, open, handleClose}: Props) {
     const {getRootProps, onClickAway} = useSnackbar({
-        onClose: handleClose,
-        open,
+        onClose: () => dispatch(closeMessage()),
+        open: isOpen,
         autoHideDuration: 5000,
     });
 
     return (
-        open ? (
+        isOpen ? (
             <ClickAwayListener onClickAway={onClickAway}>
                 <div
                     className={classes.snackbar}
                     {...getRootProps()}
                 >
-                    <Typography>{newData ? `Added ${newData} new data` : "No new data"}</Typography>
+                    <Typography>{message}</Typography>
                 </div>
             </ClickAwayListener>
         ) : null)

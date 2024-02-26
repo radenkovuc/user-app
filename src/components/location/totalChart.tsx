@@ -1,14 +1,9 @@
-'use client'
 import {LineChart} from '@mui/x-charts/LineChart';
+
 import {Data} from "@/src/domain/data";
 
 interface Props {
     data: Data[]
-}
-
-const parseValue = (data: string): number | null => {
-    const value = Number.parseFloat(data)
-    return value < -1000 ? null : value
 }
 
 export const TotalChart = ({data}: Props) => {

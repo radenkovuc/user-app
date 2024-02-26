@@ -1,31 +1,26 @@
 "use client"
 
-import {useState} from "react";
 import {useRouter} from "next/navigation";
 import {Button, Typography} from "@mui/material";
 
 import {Location} from "@/src/domain/location";
 import {updateSourceData} from "@/src/services/dbServices";
-import Snackbar from "@/src/components/common/snackbar/snackbar";
+import {loadLocationData} from "@/src/services/stateServices";
+import {showMessage, useAppDispatch} from "@/src/store";
 
 interface Props {
     location: Location,
 }
 
 export const LocationActions = ({location}: Props) => {
-    const [newData, setNewData] = useState<number | null>(null)
-    const [open, setOpen] = useState(false);
     const router = useRouter();
-
-    const handleClose = () => {
-        setOpen(false);
-    };
+    const dispatch = useAppDispatch();
 
     const onUpdate = async () => {
         const newData = await updateSourceData(location)
-        setNewData(newData.new)
-        setOpen(true)
         console.log('onUpdate')
+        void loadLocationData(location.id, dispatch)
+        dispatch(showMessage(newData.new ? `Added ${newData.new} new data` : "No new data"))
         router.refresh()
     }
 
@@ -33,6 +28,5 @@ export const LocationActions = ({location}: Props) => {
         <Button onClick={onUpdate}>
             <Typography>Update</Typography>
         </Button>
-        <Snackbar handleClose={handleClose} open={open} newData={newData}/>
     </div>
 }
