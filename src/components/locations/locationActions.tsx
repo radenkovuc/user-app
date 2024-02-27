@@ -1,11 +1,11 @@
 "use client"
 
-import {useState} from "react";
 import Link from "next/link";
 import {Button, Typography} from "@mui/material";
 
 import {Location} from "@/src/domain/location";
 import {updateSourceData} from "@/src/services/dbServices";
+import {addMessage, useAppDispatch} from "@/src/store";
 
 import classes from "./locations.module.css";
 
@@ -14,12 +14,11 @@ interface Props {
 }
 
 export const LocationActions = ({location}: Props) => {
-    const [newData, setNewData] = useState<number | null>(null)
+    const dispatch = useAppDispatch();
 
     const onUpdate = async () => {
         const newData = await updateSourceData(location)
-        setNewData(newData.new)
-        console.log('onUpdate')
+        dispatch(addMessage(`${location.name} - new: ${newData.new}, old: ${newData.old}`))
     }
 
     const onDelete = () => {
@@ -37,9 +36,6 @@ export const LocationActions = ({location}: Props) => {
                 <Typography>Open</Typography>
             </Link>
         </Button>
-        {newData != null &&
-            <Typography>new: {newData}</Typography>
-        }
         <Button>
             <Link href={location.url} target="_blank">Link</Link>
         </Button>

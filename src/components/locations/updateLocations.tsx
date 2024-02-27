@@ -3,31 +3,23 @@ import {useState} from "react";
 import {Button} from "@mui/material";
 
 import {Location} from "@/src/domain/location";
-import {UpdatedLocation} from "@/src/domain/updatedLocation";
-
 import {updateSourceData} from "@/src/services/dbServices";
-
-import {UpdatedLocations} from "@/src/components/locations/updatedLocations";
+import {addMessage, useAppDispatch} from "@/src/store";
 
 interface Props {
     locations: Location[]
 }
 
 export const UpdateLocations = ({locations}: Props) => {
-    const [updatedLocations, setUpdatedLocations] = useState<UpdatedLocation[]>([])
     const [loading, setLoading] = useState(false)
+    const dispatch = useAppDispatch();
 
     const update = async (l: Location) => {
         const newData = await updateSourceData(l)
-        setUpdatedLocations(updatedLocations => [...updatedLocations, {
-            name: l.name,
-            old: newData.old,
-            new: newData.new
-        }])
+        dispatch(addMessage(`${l.name} - new: ${newData.new}, old: ${newData.old}`))
     }
 
     const onUpdate = async () => {
-        setUpdatedLocations([])
         setLoading(true)
         for (const l of locations) {
             await update(l)
@@ -37,6 +29,5 @@ export const UpdateLocations = ({locations}: Props) => {
 
     return <div>
         <Button disabled={loading} variant="contained" onClick={onUpdate}>Update Locations</Button>
-        <UpdatedLocations locations={updatedLocations}/>
     </div>
 }

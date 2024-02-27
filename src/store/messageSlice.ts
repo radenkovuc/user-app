@@ -1,27 +1,29 @@
 import {createSlice} from "@reduxjs/toolkit";
 
+type Message = {
+    id: number
+    text: string
+}
+
 interface MessageState {
-    isOpen: boolean
-    message: string
+    messages: Message[]
 }
 
 const initialState: MessageState = {
-    isOpen: false,
-    message: ''
+    messages: []
 };
 
 export const MessageSlice = createSlice({
     name: "message",
     initialState: initialState,
     reducers: {
-        closeMessage(state) {
-            state.isOpen = false
+        closeMessage(state, action) {
+           state.messages = state.messages.filter(m => m.id !== action.payload)
         },
-        showMessage(state, action) {
-            state.isOpen = true
-            state.message = action.payload
+        addMessage(state, action) {
+            state.messages = [...state.messages, {id: Date.now(), text: action.payload}]
         },
     }
 });
 
-export const {closeMessage, showMessage} = MessageSlice.actions;
+export const {closeMessage, addMessage} = MessageSlice.actions;

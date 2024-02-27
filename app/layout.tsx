@@ -4,7 +4,7 @@ import {AppRouterCacheProvider} from '@mui/material-nextjs/v14-appRouter';
 
 import {StoreProvider} from "@/app/StoreProvider";
 
-import Snackbar from "@/src/components/common/snackbar";
+import {Messages} from "@/src/components/common/snackbar/messages";
 
 import './globals.css'
 import '@fontsource/roboto/300.css';
@@ -27,7 +27,7 @@ const RootLayout = ({children}: Props) => (
     <AppRouterCacheProvider options={{enableCssLayer: true}}>
         <StoreProvider>
             {children}
-            <Snackbar/>
+            <Messages/>
         </StoreProvider>
     </AppRouterCacheProvider>
     </body>

@@ -23,7 +23,11 @@ export const LocationSlice = createSlice({
         setData(state, action) {
             state.data = action.payload;
         },
+        resetData(state) {
+            state.dataByDate = []
+            state.data = []
+        }
     }
 });
 
-export const {setDataByBate, setData} = LocationSlice.actions;
+export const {setDataByBate, setData, resetData} = LocationSlice.actions;
