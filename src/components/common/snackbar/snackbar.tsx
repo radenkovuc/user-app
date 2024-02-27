@@ -1,6 +1,7 @@
 import {useSnackbar} from '@mui/base/useSnackbar';
 import {ClickAwayListener} from '@mui/base/ClickAwayListener';
 import {Typography} from "@mui/material";
+import {motion} from "framer-motion"
 
 import classes from "./snackbar.module.css";
 
@@ -18,12 +19,15 @@ export const Snackbar = ({message, onClose}: Props) => {
 
     return (
         <ClickAwayListener onClickAway={onClickAway}>
-            <div
+            <motion.div
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                exit={{opacity: 0, x: 200}}
                 className={classes.snackbar}
                 {...getRootProps()}
             >
                 <Typography>{message}</Typography>
-            </div>
+            </motion.div>
         </ClickAwayListener>
     )
 }
