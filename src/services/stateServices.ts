@@ -1,15 +1,21 @@
-import {AppDispatch, setData, setDataByBate,resetData} from "@/src/store";
-import {getSourceData, getSourceDataByDate} from "@/src/services/dbServices";
+import {AppDispatch, resetData, setData, setDataByBate} from "@/src/store";
+import {getData, getLocation, getSourceDataByDate} from "@/src/services/db";
 
-import {DailyData as DData} from "@/src/domain/dailyData";
-import {Data} from "@/src/domain/data";
+import {DailyData, Data} from "@/src/domain";
 
 export const loadLocationData = async (id: string, dispatch: AppDispatch) => {
     dispatch(resetData())
 
-    const dataByDate: DData[] = await getSourceDataByDate(id)
-    dispatch(setDataByBate(dataByDate))
+    const location = await getLocation(id)
 
-    const data: Data[] = await getSourceData(id)
-    dispatch(setData(data))
+    if (location) {
+        const temperatureDataByDate: DailyData[] = await getSourceDataByDate(location.temperature.id)
+        const waterLevelDataByDate: DailyData[] = await getSourceDataByDate(location.waterLevel.id)
+        dispatch(setDataByBate([temperatureDataByDate, waterLevelDataByDate]))
+
+        const temperatureData: Data[] = await getData(location.temperature.id)
+        const waterLevelData: Data[] = await getData(location.waterLevel.id)
+        dispatch(setData([temperatureData, waterLevelData]))
+    }
+
 }

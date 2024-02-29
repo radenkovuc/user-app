@@ -1,7 +1,5 @@
-import {DBData} from "@/src/domain/db/data";
-import {Data} from "@/src/domain/data";
-import {Source} from "@/src/domain/source";
-import {DBSource} from "@/src/domain/db/source";
+import {DBData, DBLocation, DBSource} from "@/src/domain/db";
+import {Data, Location, Source} from "@/src/domain";
 
 export const mapData = (data: DBData): Data => ({
     datetime: data.datetime,
@@ -10,7 +8,13 @@ export const mapData = (data: DBData): Data => ({
 })
 
 export const mapSource = (source: DBSource): Source => ({
-    name: source.name,
     url: source.url,
     id: source._id.toString()
+})
+
+export const mapLocation = (location: DBLocation): Location => ({
+    id: location._id.toString(),
+    name: location.name,
+    temperature: mapSource(location.temperature),
+    waterLevel: mapSource(location.waterLevel)
 })

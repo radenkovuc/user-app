@@ -1,7 +1,9 @@
+'use server'
+
 import {ObjectId} from "mongodb";
 
-import {Source} from "@/src/domain/source";
-import {DBData} from "@/src/domain/db/data";
+import {Source} from "@/src/domain";
+import {DBData} from "@/src/domain/db";
 
 const getData = (scriptText: string, sourceId: string): DBData[] => {
     // Regular expression to extract the date-time and numerical values from niz.push lines

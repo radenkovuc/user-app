@@ -1,13 +1,13 @@
 import {NextResponse} from "next/server";
 
-import {getSource, updateSourceData} from "@/src/services/dbServices";
+import {getLocation, updateLocationData} from "@/src/services/db/DataServices";
 
 export async function GET(request: Request, {params}: { params: { id: string } }) {
-    const location = await getSource(params.id)
+    const location = await getLocation(params.id)
     if (!location) {
         return NextResponse.error()
     }
-    const data = await updateSourceData(location)
+    const data = await updateLocationData(location)
 
     return NextResponse.json({message: "SYNC DONE", data}, {status: 200})
 }

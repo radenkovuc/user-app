@@ -1,7 +1,7 @@
 import Link from "next/link";
 import {Typography} from "@mui/material";
 
-import {Location} from "@/src/domain/location";
+import {Location} from "@/src/domain";
 
 import {LocationActions} from "./locationActions";
 import classes from "./locations.module.css";

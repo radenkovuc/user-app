@@ -3,10 +3,10 @@ import {Typography} from "@mui/material";
 import {useEffect} from "react";
 
 import {useAppDispatch, useAppSelector} from "@/src/store";
-import {loadLocationData} from "@/src/services/stateServices";
+import {loadLocationData} from "@/src/services";
 
-import {DailyChart} from "@/src/components/location/dailyChart";
-import {TotalChart} from "@/src/components/location/totalChart";
+import {DailyChart} from "./dailyChart";
+import {TotalChart} from "./totalChart";
 
 import classes from "./location.module.css";
 
@@ -15,7 +15,7 @@ interface Props {
 }
 
 export const DailyData = ({id}: Props) => {
-    const data = useAppSelector(s => s.location.data)
+    const {data, dataByDate} = useAppSelector(s => s.location)
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -25,12 +25,18 @@ export const DailyData = ({id}: Props) => {
 
     return (
         <div className={classes.dailyData}>
-            <Typography>Daily min-max:</Typography>
-            <DailyChart/>
-            <Typography>Total :</Typography>
-            <TotalChart data={data}/>
-            <Typography>Total last 7 days:</Typography>
-            <TotalChart data={data.slice(-1 * 7 * 48)}/>
+            <Typography>Daily min-max temperature:</Typography>
+            <DailyChart data={dataByDate[0]}/>
+            <Typography>Daily min-max water level:</Typography>
+            <DailyChart data={dataByDate[1]}/>
+            <Typography>Total temperature:</Typography>
+            <TotalChart data={data[0]}/>
+            <Typography>Total water level:</Typography>
+            <TotalChart data={data[1]}/>
+            <Typography>Total temperature last 7 days:</Typography>
+            <TotalChart data={data[0].slice(-1 * 7 * 48)}/>
+            <Typography>Total water level last 7 days:</Typography>
+            <TotalChart data={data[1].slice(-1 * 7 * 48)}/>
         </div>
     )
 }

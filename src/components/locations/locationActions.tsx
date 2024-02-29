@@ -3,8 +3,8 @@
 import Link from "next/link";
 import {Button, Typography} from "@mui/material";
 
-import {Location} from "@/src/domain/location";
-import {updateSourceData} from "@/src/services/dbServices";
+import {Location} from "@/src/domain";
+import {updateLocationData} from "@/src/services/db";
 import {addMessage, useAppDispatch} from "@/src/store";
 
 import classes from "./locations.module.css";
@@ -17,13 +17,8 @@ export const LocationActions = ({location}: Props) => {
     const dispatch = useAppDispatch();
 
     const onUpdate = async () => {
-        const newData = await updateSourceData(location)
+        const newData = await updateLocationData(location)
         dispatch(addMessage(`${location.name} - new: ${newData.new}, old: ${newData.old}`))
-    }
-
-    const onDelete = () => {
-        console.log('onDelete')
-        // void deleteLocation(id)
     }
 
     return <div className={classes.actions}>
@@ -36,9 +31,5 @@ export const LocationActions = ({location}: Props) => {
                 <Typography>Open</Typography>
             </Link>
         </Button>
-        <Button>
-            <Link href={location.url} target="_blank">Link</Link>
-        </Button>
-        <Button onClick={onDelete}>Delete</Button>
     </div>
 }

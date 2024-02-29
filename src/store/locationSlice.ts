@@ -1,31 +1,30 @@
 import {createSlice} from "@reduxjs/toolkit";
 
-import {DailyData} from "@/src/domain/dailyData";
-import {Data} from "@/src/domain/data";
+import {DailyData, Data} from "@/src/domain";
 
 interface LocationState {
-    dataByDate: DailyData[]
-    data: Data[]
+    dataByDate: [DailyData[], DailyData[]]
+    data: [Data[], Data[]]
 }
 
 const initialState: LocationState = {
-    dataByDate: [],
-    data: []
+    dataByDate: [[], []],
+    data: [[], []]
 };
 
 export const LocationSlice = createSlice({
     name: "location",
     initialState: initialState,
     reducers: {
-        setDataByBate(state, action) {
+        setDataByBate(state, action: { payload: [DailyData[], DailyData[]] }) {
             state.dataByDate = action.payload;
         },
-        setData(state, action) {
+        setData(state, action: { payload: [Data[], Data[]] }) {
             state.data = action.payload;
         },
         resetData(state) {
-            state.dataByDate = []
-            state.data = []
+            state.dataByDate = [[], []]
+            state.data = [[], []]
         }
     }
 });

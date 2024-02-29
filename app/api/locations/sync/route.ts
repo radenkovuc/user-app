@@ -1,13 +1,13 @@
 import {NextResponse} from "next/server";
 
-import {getSources, updateSourceData} from "@/src/services/dbServices";
-import {UpdatedLocation} from "@/src/domain/updatedLocation";
+import {getLocations, updateLocationData} from "@/src/services/db";
+import {UpdatedLocation} from "@/src/domain";
 
 export async function GET() {
     const allData: UpdatedLocation[] = []
-    const locations = await getSources()
+    const locations = await getLocations()
     for (const location of locations) {
-        const data = await updateSourceData(location)
+        const data = await updateLocationData(location)
         allData.push({name: location.name, old: data.old, new: data.new})
     }
 

@@ -1,5 +1,6 @@
-import classes from "./body.module.css";
 import {ReactNode} from "react";
+
+import classes from "./body.module.css";
 
 interface Props {
     children: ReactNode

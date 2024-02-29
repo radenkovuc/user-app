@@ -3,9 +3,9 @@
 import {useRouter} from "next/navigation";
 import {Button, Typography} from "@mui/material";
 
-import {Location} from "@/src/domain/location";
-import {updateSourceData} from "@/src/services/dbServices";
-import {loadLocationData} from "@/src/services/stateServices";
+import {Location} from "@/src/domain";
+import {loadLocationData} from "@/src/services";
+import {updateLocationData} from "@/src/services/db";
 import {addMessage, useAppDispatch} from "@/src/store";
 
 interface Props {
@@ -17,8 +17,7 @@ export const LocationActions = ({location}: Props) => {
     const dispatch = useAppDispatch();
 
     const onUpdate = async () => {
-        const newData = await updateSourceData(location)
-        console.log('onUpdate')
+        const newData = await updateLocationData(location)
         void loadLocationData(location.id, dispatch)
         dispatch(addMessage(newData.new ? `Added ${newData.new} new data` : "No new data"))
         router.refresh()

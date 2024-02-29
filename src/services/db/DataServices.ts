@@ -1,26 +1,18 @@
 "use server"
 
-import {MongoClient, ObjectId} from "mongodb";
+import {ObjectId} from "mongodb";
 
-import {Data} from "@/src/domain/data";
-import {Location} from "@/src/domain/location";
-import {DailyData} from "@/src/domain/dailyData";
-import {DBData} from "@/src/domain/db/data";
-import {DBLocation} from "@/src/domain/db/location";
-import {Source} from "@/src/domain/source";
-import {DBSource} from "@/src/domain/db/source";
-import {getSourceDataFromUrl} from "@/src/services/locationServices";
-import {mapData, mapSource} from "@/src/mappers/dbDataMapper";
+import {DailyData, Data, Location, Source} from "@/src/domain";
+import {DBData, DBLocation} from "@/src/domain/db";
 
+import {getSourceDataFromUrl} from "@/src/services";
+import {mapData} from "@/src/mappers";
 
-export const connectToDatabase = async (): Promise<MongoClient> => {
-    return await MongoClient.connect(process.env.MONGODB_URI || "");
-}
+import {connectToDatabase} from "./dbServices";
 
-export const getSourceData = async (id: string): Promise<Data[]> => {
+export const getData = async (id: string): Promise<Data[]> => {
     const client = await connectToDatabase()
-    const db = client.db()
-    const dbData: Data[] = await db.collection<DBData>("data").find({sourceId: new ObjectId(id)}, {sort: [["datetime", "asc"]]})
+    const dbData: Data[] = await client.db().collection<DBData>("data").find({sourceId: new ObjectId(id)}, {sort: [["datetime", "asc"]]})
         .map(d => mapData(d)).toArray()
 
     void client.close()
@@ -28,7 +20,16 @@ export const getSourceData = async (id: string): Promise<Data[]> => {
     return dbData
 }
 
-export const updateSourceData = async (source: Source): Promise<{ new: number, old: number }> => {
+export const updateLocationData = async (location: Location): Promise<{ new: number, old: number }> => {
+    const temperatureData = await updateSourceData(location.temperature)
+    const waterLevelData = await updateSourceData(location.waterLevel)
+    return {
+        new: temperatureData.new + waterLevelData.new,
+        old: temperatureData.old + waterLevelData.old
+    }
+}
+
+const updateSourceData = async (source: Source): Promise<{ new: number, old: number }> => {
     const client = await connectToDatabase()
     const db = client.db()
     const dbData: Data[] = await db.collection<DBData>("data").find({sourceId: new ObjectId(source.id)}, {sort: [["datetime", "asc"]]})
@@ -47,30 +48,6 @@ export const updateSourceData = async (source: Source): Promise<{ new: number, o
         new: newData.length,
         old: dbData.length
     }
-}
-
-export const getSource = async (id: string): Promise<Source | null> => {
-    const client = await connectToDatabase()
-    const db = client.db()
-    const source = await db.collection<DBSource>("source").findOne({"_id": new ObjectId(id)})
-    void client.close()
-
-    if (!source) {
-        return null
-    }
-
-    return mapSource(source)
-
-}
-
-export const getSources = async (): Promise<Source[]> => {
-    const client = await connectToDatabase()
-    let source: Location[] = await client.db().collection<DBSource>("source").find()
-        .map(l => mapSource(l)).toArray()
-
-    void client.close()
-
-    return source;
 }
 
 export const getSourceDataByDate = async (id: string): Promise<DailyData[]> => {
