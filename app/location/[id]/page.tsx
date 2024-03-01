@@ -34,7 +34,8 @@ const Location = async ({params}: Props) => {
         notFound()
     }
     const data: Data[] = await getData(location.temperature.id)
-    const title = location.name + " - last update: " + data[data.length - 1].datetime
+    //TODO Implement
+    const title = location.name + (data.length ? " - last update: " + data[data.length - 1].datetime : "")
 
     return (
         <>

@@ -27,6 +27,10 @@ const getData = (scriptText: string, sourceId: string): DBData[] => {
 }
 
 export const getSourceDataFromUrl = async (source: Source): Promise<DBData[]> => {
+    if (!source.url) {
+        return []
+    }
+
     const dataRaw = await fetch(source.url, {cache: "no-cache"})
     const body = await dataRaw.text()
 
