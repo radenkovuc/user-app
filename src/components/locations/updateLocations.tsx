@@ -34,6 +34,6 @@ export const UpdateLocations = () => {
     }
 
     return <div>
-        <Button disabled={loading} variant="contained" onClick={onUpdate}>Update Locations</Button>
+        <Button id="update" disabled={loading} variant="contained" onClick={onUpdate}>Update Locations</Button>
     </div>
 }
