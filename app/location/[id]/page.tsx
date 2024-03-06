@@ -33,15 +33,12 @@ const Location = async ({params}: Props) => {
     if (!location) {
         notFound()
     }
-    const data: Data[] = await getData(location.temperature.id)
-    //TODO Implement
-    const title = location.name + (data.length ? " - last update: " + data[data.length - 1].datetime : "")
 
     return (
         <>
-            <Header title={title} actions={<LocationActions location={location}/>}/>
+            <Header title={location.name}/>
             <Body>
-                <DailyData id={params.id}/>
+                <DailyData id={params.id} location={location}/>
             </Body>
         </>
     )

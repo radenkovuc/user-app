@@ -1,3 +1,23 @@
 .dailyData {
     @apply flex flex-col items-center w-full;
 }
+
+.header {
+    @apply flex flex-col w-full justify-start;
+}
+
+.updateContainer {
+    @apply flex items-center mb-4;
+}
+
+.dataContainer {
+    @apply flex mb-4;
+}
+
+.valuesContainer {
+    @apply flex flex-col mr-8;
+}
+
+.title {
+    @apply mr-4;
+}
