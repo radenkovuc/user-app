@@ -1,5 +1,5 @@
-import {DBData, DBLocation, DBSource} from "@/src/domain/db";
-import {Data, Location, Source} from "@/src/domain";
+import {DBData, DBLocation, DBSource} from "@/domain/db";
+import {Data, Location, Source} from "@/domain";
 
 export const mapData = (data: DBData): Data => ({
     datetime: data.datetime,

@@ -1,6 +1,6 @@
 import {LineChart} from '@mui/x-charts/LineChart';
 
-import {DailyData} from "@/src/domain";
+import {DailyData} from "@/domain";
 
 const parseValue = (data: string): number | null => {
     const value = Number.parseFloat(data)

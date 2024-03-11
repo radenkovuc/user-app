@@ -4,7 +4,7 @@ import {AppRouterCacheProvider} from '@mui/material-nextjs/v14-appRouter';
 
 import {StoreProvider} from "@/app/StoreProvider";
 
-import {Messages} from "@/src/components/common/snackbar/messages";
+import {Messages} from "@/components/common/snackbar/messages";
 
 import './globals.css'
 import '@fontsource/roboto/300.css';

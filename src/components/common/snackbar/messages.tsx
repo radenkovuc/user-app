@@ -2,7 +2,7 @@
 
 import {AnimatePresence, motion} from "framer-motion"
 
-import {closeMessage, useAppDispatch, useAppSelector} from "@/src/store";
+import {closeMessage, useAppDispatch, useAppSelector} from "@/store";
 
 import {Snackbar} from "./snackbar";
 

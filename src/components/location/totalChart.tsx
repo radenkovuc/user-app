@@ -1,6 +1,6 @@
 import {LineChart} from '@mui/x-charts/LineChart';
 
-import {Data} from "@/src/domain";
+import {Data} from "@/domain";
 
 interface Props {
     data: Data[]

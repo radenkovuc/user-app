@@ -5,10 +5,10 @@ import {
     setDailyWaterLevels,
     setTemperatures,
     setWaterLevels
-} from "@/src/store";
-import {getData, getLocation, getSourceDataByDate} from "@/src/services/db";
+} from "@/store";
+import {getData, getLocation, getSourceDataByDate} from "@/services/db";
 
-import {DailyData, Data} from "@/src/domain";
+import {DailyData, Data} from "@/domain";
 
 export const loadLocationData = async (id: string, dispatch: AppDispatch) => {
     dispatch(resetData())

@@ -1,7 +1,7 @@
 import {Metadata} from "next";
 
-import Header from "@/src/components/header";
-import Body from "@/src/components/body";
+import Header from "@/components/header";
+import Body from "@/components/body";
 
 export const metadata: Metadata = {
     title: "Not Found",

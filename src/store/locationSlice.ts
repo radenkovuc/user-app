@@ -1,6 +1,6 @@
 import {createSlice} from "@reduxjs/toolkit";
 
-import {DailyData, Data} from "@/src/domain";
+import {DailyData, Data} from "@/domain";
 
 interface LocationState {
     temperatures: Data[]

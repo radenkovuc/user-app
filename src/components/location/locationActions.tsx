@@ -2,10 +2,10 @@
 
 import {Button, Typography} from "@mui/material";
 
-import {Location} from "@/src/domain";
-import {loadLocationData} from "@/src/services";
-import {updateLocationData} from "@/src/services/db";
-import {addMessage, useAppDispatch} from "@/src/store";
+import {Location} from "@/domain";
+import {loadLocationData} from "@/services";
+import {updateLocationData} from "@/services/db";
+import {addMessage, useAppDispatch} from "@/store";
 
 interface Props {
     location: Location,

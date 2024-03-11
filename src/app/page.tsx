@@ -1,8 +1,8 @@
 import {Metadata} from "next";
 
-import Header from "@/src/components/header";
-import Body from "@/src/components/body";
-import Locations, {UpdateLocations} from "@/src/components/locations";
+import Header from "@/components/header";
+import Body from "@/components/body";
+import Locations, {UpdateLocations} from "@/components/locations";
 
 export const metadata: Metadata = {
     title: "Locations",

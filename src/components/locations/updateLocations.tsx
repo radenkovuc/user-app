@@ -2,9 +2,9 @@
 import {useEffect, useState} from "react";
 import {Button} from "@mui/material";
 
-import {Location} from "@/src/domain";
-import {getLocations, updateLocationData} from "@/src/services/db";
-import {addMessage, useAppDispatch} from "@/src/store";
+import {Location} from "@/domain";
+import {getLocations, updateLocationData} from "@/services/db";
+import {addMessage, useAppDispatch} from "@/store";
 
 export const UpdateLocations = () => {
     const [loading, setLoading] = useState(false)

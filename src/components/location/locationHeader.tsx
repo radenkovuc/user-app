@@ -2,8 +2,8 @@
 
 import {Typography} from "@mui/material";
 
-import {Location} from "@/src/domain";
-import {useAppSelector} from "@/src/store";
+import {Location} from "@/domain";
+import {useAppSelector} from "@/store";
 
 import {LocationActions} from "./locationActions";
 

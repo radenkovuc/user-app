@@ -3,9 +3,9 @@
 import Link from "next/link";
 import {Button, Typography} from "@mui/material";
 
-import {Location} from "@/src/domain";
-import {updateLocationData} from "@/src/services/db";
-import {addMessage, useAppDispatch} from "@/src/store";
+import {Location} from "@/domain";
+import {updateLocationData} from "@/services/db";
+import {addMessage, useAppDispatch} from "@/store";
 
 import classes from "./locations.module.css";
 

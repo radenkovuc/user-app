@@ -2,9 +2,9 @@
 
 import {ObjectId} from "mongodb";
 
-import {Location} from "@/src/domain";
-import {DBLocation} from "@/src/domain/db";
-import {mapLocation} from "@/src/mappers";
+import {Location} from "@/domain";
+import {DBLocation} from "@/domain/db";
+import {mapLocation} from "@/mappers";
 
 import {connectToDatabase} from "./dbServices";
 

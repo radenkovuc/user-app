@@ -2,9 +2,9 @@
 import {Typography} from "@mui/material";
 import {useEffect} from "react";
 
-import {useAppDispatch, useAppSelector} from "@/src/store";
-import {loadLocationData} from "@/src/services";
-import {Location} from "@/src/domain";
+import {useAppDispatch, useAppSelector} from "@/store";
+import {loadLocationData} from "@/services";
+import {Location} from "@/domain";
 
 import {DailyChart} from "./dailyChart";
 import {TotalChart} from "./totalChart";

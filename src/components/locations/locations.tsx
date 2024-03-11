@@ -1,5 +1,5 @@
-import {getLocations} from "@/src/services/db";
-import {Location} from "@/src/domain";
+import {getLocations} from "@/services/db";
+import {Location} from "@/domain";
 
 import {SingleLocation} from "./location";
 

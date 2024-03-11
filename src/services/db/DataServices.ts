@@ -2,11 +2,11 @@
 
 import {ObjectId} from "mongodb";
 
-import {DailyData, Data, Location, Source} from "@/src/domain";
-import {DBData, DBLocation} from "@/src/domain/db";
+import {DailyData, Data, Location, Source} from "@/domain";
+import {DBData, DBLocation} from "@/domain/db";
 
-import {getSourceDataFromUrl} from "@/src/services";
-import {mapData} from "@/src/mappers";
+import {getSourceDataFromUrl} from "@/services";
+import {mapData} from "@/mappers";
 
 import {connectToDatabase} from "./dbServices";
 

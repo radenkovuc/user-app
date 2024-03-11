@@ -5,3 +5,7 @@
 a {
     @apply no-underline text-inherit;
 }
+
+html, body {
+    @apply h-full;
+}

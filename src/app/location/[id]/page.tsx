@@ -1,13 +1,12 @@
 import {notFound} from "next/navigation";
 
-import {getData, getLocation} from "@/src/services/db";
+import {getLocation} from "@/services/db";
 
-import {Data, Location} from "@/src/domain";
+import {Location} from "@/domain";
 
-import Header from "@/src/components/header";
-import Body from "@/src/components/body";
-import {DailyData} from "@/src/components/location/dailyData";
-import {LocationActions} from "@/src/components/location/locationActions";
+import Header from "@/components/header";
+import Body from "@/components/body";
+import {DailyData} from "@/components/location/dailyData";
 
 export async function generateMetadata({params}: Props) {
     const location: Location | null = await getLocation(params.id)

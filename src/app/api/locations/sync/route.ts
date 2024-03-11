@@ -1,7 +1,7 @@
 import {NextResponse} from "next/server";
 
-import {getLocations, updateLocationData} from "@/src/services/db";
-import {UpdatedLocation} from "@/src/domain";
+import {getLocations, updateLocationData} from "@/services/db";
+import {UpdatedLocation} from "@/domain";
 
 export async function GET() {
     const allData: UpdatedLocation[] = []

@@ -1,6 +1,6 @@
 import {configureStore} from '@reduxjs/toolkit'
 
-import {LocationSlice, MessageSlice} from "@/src/store";
+import {LocationSlice, MessageSlice} from "@/store";
 
 export const makeStore = () => {
     return configureStore({

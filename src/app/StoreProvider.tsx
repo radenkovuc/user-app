@@ -1,8 +1,9 @@
 'use client'
+
 import {ReactNode, useRef} from 'react'
 import {Provider} from 'react-redux'
 
-import {AppStore, makeStore} from "@/src/store";
+import {AppStore, makeStore} from "@/store";
 
 interface Props {
     children: ReactNode
