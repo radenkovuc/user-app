@@ -3,30 +3,48 @@ import {createSlice} from "@reduxjs/toolkit";
 import {DailyData, Data} from "@/src/domain";
 
 interface LocationState {
-    dataByDate: [DailyData[], DailyData[]]
-    data: [Data[], Data[]]
+    temperatures: Data[]
+    waterLevels: Data[]
+    dailyTemperatures: DailyData[]
+    dailyWaterLevels: DailyData[]
 }
 
 const initialState: LocationState = {
-    dataByDate: [[], []],
-    data: [[], []]
+    temperatures: [],
+    waterLevels: [],
+    dailyTemperatures: [],
+    dailyWaterLevels: []
 };
 
 export const LocationSlice = createSlice({
     name: "location",
     initialState: initialState,
     reducers: {
-        setDataByBate(state, action: { payload: [DailyData[], DailyData[]] }) {
-            state.dataByDate = action.payload;
+        setTemperatures(state, action: { payload: Data[] }) {
+            state.temperatures = action.payload;
         },
-        setData(state, action: { payload: [Data[], Data[]] }) {
-            state.data = action.payload;
+        setWaterLevels(state, action: { payload: Data[] }) {
+            state.waterLevels = action.payload;
+        },
+        setDailyTemperatures(state, action: { payload: DailyData[] }) {
+            state.dailyTemperatures = action.payload;
+        },
+        setDailyWaterLevels(state, action: { payload: DailyData[] }) {
+            state.dailyWaterLevels = action.payload;
         },
         resetData(state) {
-            state.dataByDate = [[], []]
-            state.data = [[], []]
+            state.temperatures = []
+            state.waterLevels = []
+            state.dailyTemperatures = []
+            state.dailyWaterLevels = []
         }
     }
 });
 
-export const {setDataByBate, setData, resetData} = LocationSlice.actions;
+export const {
+    setTemperatures,
+    setWaterLevels,
+    setDailyTemperatures,
+    setDailyWaterLevels,
+    resetData
+} = LocationSlice.actions;

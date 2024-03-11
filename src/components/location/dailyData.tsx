@@ -19,7 +19,7 @@ interface Props {
 }
 
 export const DailyData = ({id, location}: Props) => {
-    const {data, dataByDate} = useAppSelector(s => s.location)
+    const {temperatures, waterLevels, dailyWaterLevels, dailyTemperatures} = useAppSelector(s => s.location)
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -31,17 +31,17 @@ export const DailyData = ({id, location}: Props) => {
         <div className={classes.dailyData}>
             <LocationHeader location={location}/>
             <Typography>Temperature last 7 days:</Typography>
-            <TotalChart data={data[0].slice(-1 * 7 * 48)}/>
+            <TotalChart data={temperatures.slice(-1 * 7 * 48)}/>
             <Typography>Water level last 7 days:</Typography>
-            <TotalChart data={data[1].slice(-1 * 7 * 48)}/>
+            <TotalChart data={waterLevels.slice(-1 * 7 * 48)}/>
             <Typography>Daily min-max temperature:</Typography>
-            <DailyChart data={dataByDate[0]}/>
+            <DailyChart data={dailyTemperatures}/>
             <Typography>Daily min-max water level:</Typography>
-            <DailyChart data={dataByDate[1]}/>
+            <DailyChart data={dailyWaterLevels}/>
             <Typography>Total temperature:</Typography>
-            <TotalChart data={data[0]}/>
+            <TotalChart data={temperatures}/>
             <Typography>Total water level:</Typography>
-            <TotalChart data={data[1]}/>
+            <TotalChart data={waterLevels}/>
         </div>
     )
 }

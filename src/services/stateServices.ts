@@ -1,4 +1,11 @@
-import {AppDispatch, resetData, setData, setDataByBate} from "@/src/store";
+import {
+    AppDispatch,
+    resetData,
+    setDailyTemperatures,
+    setDailyWaterLevels,
+    setTemperatures,
+    setWaterLevels
+} from "@/src/store";
 import {getData, getLocation, getSourceDataByDate} from "@/src/services/db";
 
 import {DailyData, Data} from "@/src/domain";
@@ -10,12 +17,17 @@ export const loadLocationData = async (id: string, dispatch: AppDispatch) => {
 
     if (location) {
         const temperatureData: Data[] = await getData(location.temperature.id)
+        dispatch(setTemperatures(temperatureData))
+
         const waterLevelData: Data[] = await getData(location.waterLevel.id)
-        dispatch(setData([temperatureData, waterLevelData]))
+        dispatch(setWaterLevels(waterLevelData))
 
         const temperatureDataByDate: DailyData[] = await getSourceDataByDate(location.temperature.id)
+        dispatch(setDailyTemperatures(temperatureDataByDate))
+
         const waterLevelDataByDate: DailyData[] = await getSourceDataByDate(location.waterLevel.id)
-        dispatch(setDataByBate([temperatureDataByDate, waterLevelDataByDate]))
+        dispatch(setDailyWaterLevels(waterLevelDataByDate))
+
     }
 
 }
