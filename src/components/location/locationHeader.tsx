@@ -29,7 +29,7 @@ export const LocationHeader = ({location}: Props) => {
             <LocationActions location={location}/>
         </div>
         <div className={classes.dataContainer}>
-            <Typography className={classes.title}>Temperature today:</Typography>
+            <Typography className={classes.title}>Water temperature today:</Typography>
             <div className={classes.valuesContainer}>
                 <Typography>Current: {currentTemperature?.value || "Loading..."}</Typography>
                 <Typography>Min: {todayTemperature?.min_value || "Loading..."}</Typography>
