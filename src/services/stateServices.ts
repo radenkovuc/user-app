@@ -6,7 +6,7 @@ import {
     setTemperatures,
     setWaterLevels
 } from "@/store";
-import {getData, getLocation, getSourceDataByDate} from "@/services/db";
+import {getLocation, getLocationData, getSourceDataByDate} from "@/services/db";
 
 import {DailyData, Data} from "@/domain";
 
@@ -16,10 +16,10 @@ export const loadLocationData = async (id: string, dispatch: AppDispatch) => {
     const location = await getLocation(id)
 
     if (location) {
-        const temperatureData: Data[] = await getData(location.temperature.id)
+        const temperatureData: Data[] = await getLocationData(location.temperature)
         dispatch(setTemperatures(temperatureData))
 
-        const waterLevelData: Data[] = await getData(location.waterLevel.id)
+        const waterLevelData: Data[] = await getLocationData(location.waterLevel)
         dispatch(setWaterLevels(waterLevelData))
 
         const temperatureDataByDate: DailyData[] = await getSourceDataByDate(location.temperature.id)

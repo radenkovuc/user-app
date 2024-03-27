@@ -6,7 +6,7 @@ import {DailyData, Data, Location, Source} from "@/domain";
 import {DBData, DBLocation} from "@/domain/db";
 
 import {getSourceDataFromUrl} from "@/services";
-import {mapData} from "@/mappers";
+import {mapData, mapDBData} from "@/mappers";
 
 import {connectToDatabase} from "./dbServices";
 
@@ -20,16 +20,22 @@ export const getData = async (id: string): Promise<Data[]> => {
     return dbData
 }
 
+export const getLocationData = async (source: Source): Promise<Data[]> => {
+    const {newData, dbData} = await updateSourceData(source)
+
+    return [...newData, ...dbData].sort((d1, d2) => d1.datetime.localeCompare(d2.datetime))
+}
+
 export const updateLocationData = async (location: Location): Promise<{ new: number, old: number }> => {
     const temperatureData = await updateSourceData(location.temperature)
     const waterLevelData = await updateSourceData(location.waterLevel)
     return {
-        new: temperatureData.new + waterLevelData.new,
-        old: temperatureData.old + waterLevelData.old
+        new: temperatureData.newData.length + waterLevelData.newData.length,
+        old: temperatureData.dbData.length + waterLevelData.dbData.length
     }
 }
 
-const updateSourceData = async (source: Source): Promise<{ new: number, old: number }> => {
+const updateSourceData = async (source: Source): Promise<{ newData: Data[], dbData: Data[] }> => {
     const client = await connectToDatabase()
     const db = client.db()
     const dbData: Data[] = await db.collection<DBData>("data").find({sourceId: new ObjectId(source.id)}, {sort: [["datetime", "asc"]]})
@@ -39,14 +45,14 @@ const updateSourceData = async (source: Source): Promise<{ new: number, old: num
     newData = newData.filter(d => !dbData.some(db => db.datetime == d.datetime))
 
     if (newData.length) {
-        await db.collection<DBData>("data").insertMany(newData)
+        await db.collection<DBData>("data").insertMany(newData.map(data => mapDBData(data)))
     }
 
     void client.close()
 
     return {
-        new: newData.length,
-        old: dbData.length
+        newData,
+        dbData
     }
 }
 
