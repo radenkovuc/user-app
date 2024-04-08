@@ -74,14 +74,21 @@ export const getSourceDataByDate = async (id: string): Promise<DailyData[]> => {
             $group: {
                 _id: {$dateToString: {format: "%Y-%m-%d", date: "$datetime"}},
                 max_value: {$max: "$value"},
-                min_value: {$min: "$value"}
+                min_value: {$min: "$value"},
+                avg_value: {$avg: "$value"}
+            }
+        },
+        {
+            $addFields: {
+                avg_value: {$round: ["$avg_value", 2]} // Round the average value to two decimal places
             }
         },
         {
             $project: {
                 date: "$_id",
                 max_value: 1,
-                min_value: 1
+                min_value: 1,
+                avg_value: 1,
             }
         },
         {

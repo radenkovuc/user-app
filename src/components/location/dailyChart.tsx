@@ -16,7 +16,8 @@ export const DailyChart = ({data}: Props) => (
         xAxis={[{scaleType: 'point', data: data.map(d => d.date.substring(5))}]}
         series={[
             {data: data.map(d => parseValue(d.max_value)), label: "max", color: "red", showMark: false},
-            {data: data.map(d => parseValue(d.min_value)), label: "min", showMark: false},
+            {data: data.map(d => parseValue(d.avg_value)), label: "average", color: "green", showMark: false},
+            {data: data.map(d => parseValue(d.min_value)), label: "min", color: "blue", showMark: false},
         ]}
         height={400}
     />

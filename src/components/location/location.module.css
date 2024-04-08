@@ -11,11 +11,15 @@
 }
 
 .dataContainer {
-    @apply flex mb-4;
+    @apply flex flex-col md:flex-row mb-4;
 }
 
 .valuesContainer {
-    @apply flex flex-col mr-8;
+    @apply flex md:flex-col mr-8;
+
+    > p {
+        @apply mr-4
+    }
 }
 
 .title {

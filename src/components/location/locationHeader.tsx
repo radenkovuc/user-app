@@ -31,15 +31,17 @@ export const LocationHeader = ({location}: Props) => {
         <div className={classes.dataContainer}>
             <Typography className={classes.title}>Water temperature today:</Typography>
             <div className={classes.valuesContainer}>
-                <Typography>Current: {currentTemperature?.value || "Loading..."}</Typography>
-                <Typography>Min: {todayTemperature?.min_value || "Loading..."}</Typography>
-                <Typography>Max: {todayTemperature?.max_value || "Loading..."}</Typography>
+                <Typography>Current: {currentTemperature ? `${currentTemperature.value} C` : "Loading..."}</Typography>
+                <Typography>Min: {todayTemperature ? `${todayTemperature.min_value} C` : "Loading..."}</Typography>
+                <Typography>Average: {todayTemperature ? `${todayTemperature.avg_value} C` : "Loading..."}</Typography>
+                <Typography>Max: {todayTemperature ? `${todayTemperature.max_value} C` : "Loading..."}</Typography>
             </div>
             <Typography className={classes.title}>Water level today:</Typography>
             <div className={classes.valuesContainer}>
-                <Typography>Current: {currentWaterLevel?.value || "Loading..."}</Typography>
-                <Typography>Min: {todayWaterLevel?.min_value || "Loading..."}</Typography>
-                <Typography>Max: {todayWaterLevel?.max_value || "Loading..."}</Typography>
+                <Typography>Current: {currentWaterLevel ? `${currentWaterLevel.value} cm` : "Loading..."}</Typography>
+                <Typography>Min: {todayWaterLevel ? `${todayWaterLevel.min_value} cm` : "Loading..."}</Typography>
+                <Typography>Average: {todayWaterLevel ? `${todayWaterLevel.avg_value} cm` : "Loading..."}</Typography>
+                <Typography>Max: {todayWaterLevel ? `${todayWaterLevel.max_value} cm` : "Loading..."}</Typography>
             </div>
         </div>
     </div>
