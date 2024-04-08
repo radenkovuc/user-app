@@ -6,6 +6,7 @@ import {Location} from "@/domain";
 import {useAppSelector} from "@/store";
 
 import {LocationActions} from "./locationActions";
+import {LocationData} from "./locationData";
 
 import classes from "./location.module.css";
 
@@ -31,17 +32,17 @@ export const LocationHeader = ({location}: Props) => {
         <div className={classes.dataContainer}>
             <Typography className={classes.title}>Water temperature today:</Typography>
             <div className={classes.valuesContainer}>
-                <Typography>Current: {currentTemperature ? `${currentTemperature.value} C` : "Loading..."}</Typography>
-                <Typography>Min: {todayTemperature ? `${todayTemperature.min_value} C` : "Loading..."}</Typography>
-                <Typography>Average: {todayTemperature ? `${todayTemperature.avg_value} C` : "Loading..."}</Typography>
-                <Typography>Max: {todayTemperature ? `${todayTemperature.max_value} C` : "Loading..."}</Typography>
+                <LocationData value={currentTemperature?.value} sign='C' title='Current'/>
+                <LocationData value={todayTemperature?.min_value} sign='C' title='Min'/>
+                <LocationData value={todayTemperature?.avg_value} sign='C' title='Average'/>
+                <LocationData value={todayTemperature?.max_value} sign='C' title='Max'/>
             </div>
             <Typography className={classes.title}>Water level today:</Typography>
             <div className={classes.valuesContainer}>
-                <Typography>Current: {currentWaterLevel ? `${currentWaterLevel.value} cm` : "Loading..."}</Typography>
-                <Typography>Min: {todayWaterLevel ? `${todayWaterLevel.min_value} cm` : "Loading..."}</Typography>
-                <Typography>Average: {todayWaterLevel ? `${todayWaterLevel.avg_value} cm` : "Loading..."}</Typography>
-                <Typography>Max: {todayWaterLevel ? `${todayWaterLevel.max_value} cm` : "Loading..."}</Typography>
+                <LocationData value={currentWaterLevel?.value} sign='cm' title='Current'/>
+                <LocationData value={todayWaterLevel?.min_value} sign='cm' title='Min'/>
+                <LocationData value={todayWaterLevel?.avg_value} sign='cm' title='Average'/>
+                <LocationData value={todayWaterLevel?.max_value} sign='cm' title='Max'/>
             </div>
         </div>
     </div>

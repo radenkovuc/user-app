@@ -16,10 +16,10 @@
 
 .valuesContainer {
     @apply flex md:flex-col mr-8;
+}
 
-    > p {
-        @apply mr-4
-    }
+.value{
+    @apply mr-4
 }
 
 .title {

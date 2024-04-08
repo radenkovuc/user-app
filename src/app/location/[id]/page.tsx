@@ -26,7 +26,7 @@ interface Props {
     }
 }
 
-const Location = async ({params}: Props) => {
+const LocationPage = async ({params}: Props) => {
     const location: Location | null = await getLocation(params.id)
 
     if (!location) {
@@ -43,4 +43,4 @@ const Location = async ({params}: Props) => {
     )
 }
 
-export default Location
+export default LocationPage
