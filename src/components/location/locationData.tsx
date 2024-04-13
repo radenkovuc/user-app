@@ -9,5 +9,5 @@ interface Props {
 }
 
 export const LocationData = ({title, value, sign}: Props) =>
-    <Typography className={classes.value}>${title}: {value ? `${value} ${sign}` : "Loading..."}</Typography>
+    <Typography className={classes.value}>{title}: {value ? `${value} ${sign}` : "Loading..."}</Typography>
 
