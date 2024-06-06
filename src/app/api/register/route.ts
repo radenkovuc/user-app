@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
         const decrPass = decrypt(body.password)
         const hashPass = hashSync(decrPass)
         await saveUser(body.email, hashPass)
-        return NextResponse.json({message: "User registered", user}, {status: 200})
+        return NextResponse.json({message: "User registered", user: body}, {status: 200})
     }
 }
 
