@@ -9,12 +9,12 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const user = await findUserByEmail(body.email)
     if (user) {
-        return NextResponse.json({message: "User already exist", body}, {status: 404})
+        return NextResponse.json({message: "User already exist"}, {status: 404})
     } else {
         const decrPass = decrypt(body.password)
         const hashPass = hashSync(decrPass)
         await saveUser(body.email, hashPass)
-        return NextResponse.json({message: "User registered", body}, {status: 200})
+        return NextResponse.json({message: "User registered", user}, {status: 200})
     }
 }
 
