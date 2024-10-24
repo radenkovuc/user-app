@@ -1,6 +1,6 @@
 "use client"
 
-import {Typography} from "@mui/material";
+import {CircularProgress, Typography} from "@mui/material";
 
 import {Location} from "@/domain";
 import {useAppSelector} from "@/store";
@@ -26,7 +26,8 @@ export const LocationHeader = ({location}: Props) => {
     return <div className={classes.header}>
         <div className={classes.updateContainer}>
             <Typography>Last
-                update: {currentTemperature?.datetime || currentWaterLevel?.datetime || "Loading..."}</Typography>
+                update: {currentTemperature?.datetime || currentWaterLevel?.datetime ||
+                    <CircularProgress size={10}/>}</Typography>
             <LocationActions location={location}/>
         </div>
         <div className={classes.dataContainer}>

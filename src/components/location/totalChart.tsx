@@ -1,4 +1,5 @@
 import {LineChart} from '@mui/x-charts/LineChart';
+import {CircularProgress,} from "@mui/material";
 
 import {Data} from "@/domain";
 
@@ -18,7 +19,7 @@ interface Props {
     data: Data[]
 }
 
-export const TotalChart = ({data}: Props) => (
+export const TotalChart = ({data}: Props) => data.length ? (
     <LineChart
         xAxis={[{scaleType: 'point', data: data.map(d => d.datetime.substring(5))}]}
         series={[
@@ -29,5 +30,5 @@ export const TotalChart = ({data}: Props) => (
         ]}
         height={400}
     />
-)
+) : <CircularProgress size={200} sx={{mb: 10, mt: 10}}/>
 

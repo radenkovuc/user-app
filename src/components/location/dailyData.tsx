@@ -38,10 +38,6 @@ export const DailyData = ({id, location}: Props) => {
             <DailyChart data={dailyTemperatures}/>
             <Typography>Daily min-max water level:</Typography>
             <DailyChart data={dailyWaterLevels}/>
-            <Typography>Total water temperature:</Typography>
-            <TotalChart data={temperatures}/>
-            <Typography>Total water level:</Typography>
-            <TotalChart data={waterLevels}/>
         </div>
     )
 }

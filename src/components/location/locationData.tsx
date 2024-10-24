@@ -1,4 +1,4 @@
-import {Typography} from "@mui/material";
+import {CircularProgress, Typography} from "@mui/material";
 
 import classes from "./location.module.css";
 
@@ -9,5 +9,5 @@ interface Props {
 }
 
 export const LocationData = ({title, value, sign}: Props) =>
-    <Typography className={classes.value}>{title}: {value ? `${value} ${sign}` : "Loading..."}</Typography>
+    <Typography className={classes.value}>{title}: {value ? `${value} ${sign}` : <CircularProgress size={16}/>}</Typography>
 
