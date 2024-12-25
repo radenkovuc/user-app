@@ -1,5 +1,4 @@
-import {useSnackbar} from '@mui/base/useSnackbar';
-import {ClickAwayListener} from '@mui/base/ClickAwayListener';
+import MUISnackbar from '@mui/material/Snackbar';
 import {Typography} from "@mui/material";
 import {motion} from "framer-motion"
 
@@ -11,23 +10,22 @@ interface Props {
 }
 
 export const Snackbar = ({message, onClose}: Props) => {
-    const {getRootProps, onClickAway} = useSnackbar({
-        onClose,
-        open: true,
-        autoHideDuration: 5000,
-    });
 
     return (
-        <ClickAwayListener onClickAway={onClickAway}>
-            <motion.div
-                initial={{opacity: 0}}
-                animate={{opacity: 1}}
-                exit={{opacity: 0, x: 200}}
-                className={classes.snackbar}
-                {...getRootProps()}
-            >
+        <motion.div
+            initial={{opacity: 0}}
+            animate={{opacity: 1}}
+            exit={{opacity: 0, x: 200}}
+            className={classes.container}
+        >
+            <MUISnackbar
+                onClose={onClose}
+                open
+                autoHideDuration={5000}
+                className={classes.snackbar}>
                 <Typography>{message}</Typography>
-            </motion.div>
-        </ClickAwayListener>
+            </MUISnackbar>
+        </motion.div>
+
     )
 }

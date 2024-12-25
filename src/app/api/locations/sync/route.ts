@@ -13,5 +13,3 @@ export async function GET() {
 
     return NextResponse.json({message: "SYNC DONE", allData}, {status: 200})
 }
-
-export const dynamic = 'force-dynamic'

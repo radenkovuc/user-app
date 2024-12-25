@@ -9,7 +9,8 @@ import Body from "@/components/body";
 import {DailyData} from "@/components/location/dailyData";
 
 export async function generateMetadata({params}: Props) {
-    const location: Location | null = await getLocation(params.id)
+    const {id} = await params
+    const location: Location | null = await getLocation(id)
 
     if (!location) {
         notFound()
@@ -21,13 +22,14 @@ export async function generateMetadata({params}: Props) {
 }
 
 interface Props {
-    params: {
+    params: Promise<{
         id: string
-    }
+    }>
 }
 
 const LocationPage = async ({params}: Props) => {
-    const location: Location | null = await getLocation(params.id)
+    const {id} = await params
+    const location: Location | null = await getLocation(id)
 
     if (!location) {
         notFound()
@@ -37,7 +39,7 @@ const LocationPage = async ({params}: Props) => {
         <>
             <Header title={location.name}/>
             <Body>
-                <DailyData id={params.id} location={location}/>
+                <DailyData id={id} location={location}/>
             </Body>
         </>
     )
