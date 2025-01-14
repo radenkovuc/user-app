@@ -14,7 +14,7 @@ interface Props {
 
 export const DailyChart = ({data}: Props) => data.length ? (
     <LineChart
-        xAxis={[{scaleType: 'point', data: data.map(d => d.date.substring(5))}]}
+        xAxis={[{scaleType: 'point', data: data.map(d => d.date)}]}
         series={[
             {data: data.map(d => parseValue(d.max_value)), label: "max", color: "red", showMark: false},
             {data: data.map(d => parseValue(d.avg_value)), label: "average", color: "green", showMark: false},
