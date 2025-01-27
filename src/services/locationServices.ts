@@ -1,7 +1,6 @@
 'use server'
 
 import {Data, Source} from "@/domain";
-import {DBData} from "@/domain/db";
 
 const getData = (scriptText: string, sourceId: string): Data[] => {
     // Regular expression to extract the date-time and numerical values from niz.push lines

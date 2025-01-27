@@ -29,14 +29,3 @@ export const getLocations = async (): Promise<Location[]> => {
 
     return locations;
 }
-
-export const addLocation = async (name: string, temperatureUrl: string, waterLevelUrl: string): Promise<void> => {
-    const client = await connectToDatabase()
-    await client.db().collection<DBLocation>("location").insertOne({
-        _id: new ObjectId(),
-        name,
-        temperature: {_id: new ObjectId(), url: temperatureUrl},
-        waterLevel: {_id: new ObjectId(), url: waterLevelUrl}
-    })
-    void client.close()
-}

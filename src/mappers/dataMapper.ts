@@ -3,10 +3,10 @@ import {ObjectId} from "mongodb";
 import {DBData, DBLocation, DBSource} from "@/domain/db";
 import {Data, Location, Source} from "@/domain";
 
-export const mapDBData = (data: Data): DBData => ({
+export const mapDBData = (data: Data,sourceId:string): DBData => ({
     datetime: data.datetime,
     value: data.value,
-    sourceId: new ObjectId(data.sourceId)
+    sourceId: new ObjectId(sourceId)
 })
 
 export const mapDBSource = (source: Source): DBSource => ({

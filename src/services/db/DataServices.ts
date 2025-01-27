@@ -45,7 +45,7 @@ const updateSourceData = async (source: Source): Promise<{ newData: Data[], dbDa
     newData = newData.filter(d => !dbData.some(db => db.datetime == d.datetime))
 
     if (newData.length) {
-        await db.collection<DBData>("data").insertMany(newData.map(data => mapDBData(data)))
+        await db.collection<DBData>("data").insertMany(newData.map(data => mapDBData(data, source.id)))
     }
 
     void client.close()

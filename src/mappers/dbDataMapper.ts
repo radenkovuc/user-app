@@ -4,7 +4,6 @@ import {Data, Location, Source} from "@/domain";
 export const mapData = (data: DBData): Data => ({
     datetime: data.datetime,
     value: data.value,
-    sourceId: data.sourceId.toString()
 })
 
 export const mapSource = (source: DBSource): Source => ({
