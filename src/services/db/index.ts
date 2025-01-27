@@ -1,2 +1,2 @@
-export {getLocation, getLocations} from "./LocationServices"
-export {updateLocationData, getData, getSourceDataByDate, getLocationData} from "./DataServices"
+export {getLocation, getLocations, getLocationData} from "./LocationServices"
+export {updateLocationData, getData, getSourceDataByDate} from "./DataServices"

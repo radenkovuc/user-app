@@ -1,5 +1,5 @@
-import {DBData, DBLocation, DBSource} from "@/domain/db";
-import {Data, Location, Source} from "@/domain";
+import {DBData, DBLocation, DBLocationData, DBSource} from "@/domain/db";
+import {Data, Location, LocationData, Source} from "@/domain";
 
 export const mapData = (data: DBData): Data => ({
     datetime: data.datetime,
@@ -16,4 +16,9 @@ export const mapLocation = (location: DBLocation): Location => ({
     name: location.name,
     temperature: mapSource(location.temperature),
     waterLevel: mapSource(location.waterLevel)
+})
+
+export const mapLocationData = (locationData: DBLocationData): LocationData => ({
+    waterLevel: locationData.waterLevel,
+    temperature: locationData.temperature
 })

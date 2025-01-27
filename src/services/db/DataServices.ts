@@ -2,8 +2,8 @@
 
 import {ObjectId} from "mongodb";
 
-import {DailyData, Data, Location, Source} from "@/domain";
-import {DBData, DBLocation} from "@/domain/db";
+import {DailyData, Data, Location, LocationData, Source} from "@/domain";
+import {DBData, DBLocation, DBLocationData} from "@/domain/db";
 
 import {getSourceDataFromUrl} from "@/services";
 import {mapData, mapDBData} from "@/mappers";
@@ -20,37 +20,61 @@ export const getData = async (id: string): Promise<Data[]> => {
     return dbData
 }
 
-export const getLocationData = async (source: Source): Promise<Data[]> => {
-    const {newData, dbData} = await updateSourceData(source)
-
-    return [...newData, ...dbData].sort((d1, d2) => d1.datetime.localeCompare(d2.datetime))
-}
-
 export const updateLocationData = async (location: Location): Promise<{ new: number, old: number }> => {
     const temperatureData = await updateSourceData(location.temperature)
     const waterLevelData = await updateSourceData(location.waterLevel)
+
+    const temperatureDataByDate: DailyData[] = await getSourceDataByDate(location.temperature.id)
+    const waterLevelDataByDate: DailyData[] = await getSourceDataByDate(location.waterLevel.id)
+
+    const locationData: LocationData = {
+        temperature: {
+            lastData: temperatureData.lastData,
+            dailyData: temperatureDataByDate
+        },
+        waterLevel: {
+            lastData: waterLevelData.lastData,
+            dailyData: waterLevelDataByDate
+
+        }
+    }
+    const client = await connectToDatabase();
+    try {
+        await client
+            .db()
+            .collection<DBLocationData>("location-data")
+            .replaceOne(
+                {_id: new ObjectId(location.id)}, // Filter: Match by _id
+                locationData, // Replacement document
+                {upsert: true} // Insert if no document matches
+            );
+    } finally {
+        await client.close(); // Ensure the client is closed properly
+    }
+
     return {
         new: temperatureData.newData.length + waterLevelData.newData.length,
         old: temperatureData.dbData.length + waterLevelData.dbData.length
     }
 }
 
-const updateSourceData = async (source: Source): Promise<{ newData: Data[], dbData: Data[] }> => {
+const updateSourceData = async (source: Source): Promise<{ newData: Data[], dbData: Data[], lastData: Data[] }> => {
     const client = await connectToDatabase()
     const db = client.db()
     const dbData: Data[] = await db.collection<DBData>("data").find({sourceId: new ObjectId(source.id)}, {sort: [["datetime", "asc"]]})
         .map(d => mapData(d)).toArray()
 
-    let newData = await getSourceDataFromUrl(source)
-    newData = newData.filter(d => !dbData.some(db => db.datetime == d.datetime))
+    const lastData = await getSourceDataFromUrl(source)
+    const newData = lastData.filter(d => !dbData.some(db => db.datetime == d.datetime))
 
     if (newData.length) {
-        await db.collection<DBData>("data").insertMany(newData.map(data => mapDBData(data, source.id)))
+        await db.collection<DBData>("data").insertMany(lastData.map(data => mapDBData(data, source.id)))
     }
 
     void client.close()
 
     return {
+        lastData,
         newData,
         dbData
     }

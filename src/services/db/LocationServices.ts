@@ -2,9 +2,9 @@
 
 import {ObjectId} from "mongodb";
 
-import {Location} from "@/domain";
-import {DBLocation} from "@/domain/db";
-import {mapLocation} from "@/mappers";
+import {Location, LocationData} from "@/domain";
+import {DBLocation, DBLocationData} from "@/domain/db";
+import {mapLocation, mapLocationData} from "@/mappers";
 
 import {connectToDatabase} from "./dbServices";
 
@@ -18,6 +18,18 @@ export const getLocation = async (id: string): Promise<Location | null> => {
     }
 
     return mapLocation(location)
+}
+
+export const getLocationData = async (id: string): Promise<LocationData | undefined> => {
+    const client = await connectToDatabase()
+    const location = await client.db().collection<DBLocationData>("location-data").findOne({"_id": new ObjectId(id)})
+    void client.close()
+
+    if (!location) {
+        return undefined
+    }
+
+    return mapLocationData(location)
 }
 
 export const getLocations = async (): Promise<Location[]> => {
