@@ -41,14 +41,14 @@ export const updateLocationData = async (location: Location): Promise<{ new: num
     }
     const t2 = Date.now()
 
-    const client = await connectToDatabase();
-    try {
-        await client.db()
-            .collection<DBLocationData>("location-data")
-            .replaceOne({_id: new ObjectId(location.id)}, locationData, {upsert: true});
-    } finally {
-        await client.close(); // Ensure the client is closed properly
-    }
+    // const client = await connectToDatabase();
+    // try {
+    //     await client.db()
+    //         .collection<DBLocationData>("location-data")
+    //         .replaceOne({_id: new ObjectId(location.id)}, locationData, {upsert: true});
+    // } finally {
+    //     await client.close(); // Ensure the client is closed properly
+    // }
 
     return {
         new: t2 - t1,
