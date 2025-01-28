@@ -21,6 +21,7 @@ export const getData = async (id: string): Promise<Data[]> => {
 }
 
 export const updateLocationData = async (location: Location): Promise<{ new: number, old: number }> => {
+    const t1 = Date.now()
     const temperatureData = await updateSourceData(location.temperature)
     const waterLevelData = await updateSourceData(location.waterLevel)
 
@@ -38,22 +39,19 @@ export const updateLocationData = async (location: Location): Promise<{ new: num
 
         }
     }
+    const t2 = Date.now()
+
     const client = await connectToDatabase();
     try {
-        await client
-            .db()
+        await client.db()
             .collection<DBLocationData>("location-data")
-            .replaceOne(
-                {_id: new ObjectId(location.id)}, // Filter: Match by _id
-                locationData, // Replacement document
-                {upsert: true} // Insert if no document matches
-            );
+            .replaceOne({_id: new ObjectId(location.id)}, locationData, {upsert: true});
     } finally {
         await client.close(); // Ensure the client is closed properly
     }
 
     return {
-        new: temperatureData.newData.length + waterLevelData.newData.length,
+        new: t2 - t1,
         old: temperatureData.dbData.length + waterLevelData.dbData.length
     }
 }
