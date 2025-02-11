@@ -6,7 +6,7 @@ import {DailyData, Data, Location, LocationData, Source} from "@/domain";
 import {DBData, DBLocationData} from "@/domain/db";
 
 import {getSourceDataFromUrl} from "@/services";
-import {mapData, mapDBData} from "@/mappers";
+import {mapData} from "@/mappers";
 
 import {connectToDatabase} from "./dbServices";
 
@@ -33,11 +33,11 @@ export const updateLocationData = async (location: Location): Promise<number> =>
 
     const locationData: LocationData = {
         temperature: {
-            lastData: temperatureData.lastData,
+            lastData: temperatureData,
             dailyData: temperatureDataByDate
         },
         waterLevel: {
-            lastData: waterLevelData.lastData,
+            lastData: waterLevelData,
             dailyData: waterLevelDataByDate
 
         }
@@ -56,33 +56,30 @@ export const updateLocationData = async (location: Location): Promise<number> =>
     return t4 - t1//temperatureData.dbData.length + waterLevelData.dbData.length
 }
 
-const updateSourceData = async (source: Source): Promise<{ newData: Data[], dbData: Data[], lastData: Data[] }> => {
-    const lastData = await getSourceDataFromUrl(source)
-    const oldestDateTime = new Date(lastData[0].datetime.replace(" ", "T"))
+const updateSourceData = async (source: Source): Promise<Data[]> => {
+    const data = await getSourceDataFromUrl(source)
+    console.log('data', data.length)
 
-    const client = await connectToDatabase()
-    const db = client.db()
-    const dbData: Data[] = await db.collection<DBData>("data").find({
-        sourceId: new ObjectId(source.id),
-        datetime: {$gt: oldestDateTime}
-    }, {sort: [["datetime", "asc"]]})
-        .map(d => mapData(d)).toArray()
-    console.log('oldestDateTime',oldestDateTime)
-    console.log('dbData', dbData.length)
-    const newData = lastData.filter(d => !dbData.some(db => db.datetime == d.datetime))
-    console.log('newData', newData.length)
+    if (data.length > 0) {
+        const client = await connectToDatabase()
+        const db = client.db()
+        const dbData: DBData[] = await db.collection<DBData>("data").find({
+            sourceId: new ObjectId(source.id),
+            datetime: {$gte: data[0].datetime}
+        }, {sort: [["datetime", "asc"]]}).toArray()
+        console.log('oldestDateTime', data[0].datetime)
+        console.log('dbData', dbData.length)
+        const newData = data.filter(d => !dbData.some(db => db.datetime.getTime() === d.datetime.getTime()))
+        console.log('newData', newData.length)
 
-    // if (newData.length) {
-    //     await db.collection<DBData>("data").insertMany(lastData.map(data => mapDBData(data, source.id)))
-    // }
+        if (newData.length) {
+            await db.collection<DBData>("data").insertMany(newData)
+        }
 
-    void client.close()
-
-    return {
-        lastData,
-        newData,
-        dbData
+        void client.close()
     }
+
+    return data.map(d => mapData(d))
 }
 
 export const getSourceDataByDate = async (id: string): Promise<DailyData[]> => {

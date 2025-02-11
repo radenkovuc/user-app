@@ -2,7 +2,7 @@ import {DBData, DBLocation, DBLocationData, DBSource} from "@/domain/db";
 import {Data, Location, LocationData, Source} from "@/domain";
 
 export const mapData = (data: DBData): Data => ({
-    datetime: data.datetime.toString(),
+    datetime: data.datetime.toISOString().slice(0, 19).replace("T", " "),
     value: data.value,
 })
 
