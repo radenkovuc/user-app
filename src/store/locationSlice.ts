@@ -6,17 +6,19 @@ interface LocationState {
     locationData: LocationData
 }
 
-const initialState: LocationState = {
-    locationData: {
-        temperature: {
-            dailyData: [],
-            lastData: []
-        },
-        waterLevel: {
-            dailyData: [],
-            lastData: []
-        }
+const initialLocationData: LocationData = {
+    temperature: {
+        dailyData: [],
+        lastData: []
+    },
+    waterLevel: {
+        dailyData: [],
+        lastData: []
     }
+}
+
+const initialState: LocationState = {
+    locationData: initialLocationData
 };
 
 export const LocationSlice = createSlice({
@@ -28,7 +30,7 @@ export const LocationSlice = createSlice({
         },
 
         resetData(state) {
-            state = initialState
+            state.locationData = initialLocationData
         }
     }
 });

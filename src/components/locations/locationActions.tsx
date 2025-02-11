@@ -17,8 +17,8 @@ export const LocationActions = ({location}: Props) => {
     const dispatch = useAppDispatch();
 
     const onUpdate = async () => {
-        const newData = await updateLocationData(location)
-        dispatch(addMessage(`${location.name} - new data: ${newData}`))
+        await updateLocationData(location)
+        dispatch(addMessage(`${location.name} - data updated`))
     }
 
     return <div className={classes.actions}>

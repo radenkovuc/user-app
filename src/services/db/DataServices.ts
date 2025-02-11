@@ -20,16 +20,12 @@ export const getData = async (id: string): Promise<Data[]> => {
     return dbData
 }
 
-export const updateLocationData = async (location: Location): Promise<number> => {
-    const t1 = Date.now()
+export const updateLocationData = async (location: Location): Promise<LocationData> => {
     const temperatureData = await updateSourceData(location.temperature)
     const waterLevelData = await updateSourceData(location.waterLevel)
-    const t2 = Date.now()
-    console.log("Update", t2 - t1)
+
     const temperatureDataByDate: DailyData[] = await getSourceDataByDate(location.temperature.id)
     const waterLevelDataByDate: DailyData[] = await getSourceDataByDate(location.waterLevel.id)
-    const t3 = Date.now()
-    console.log("load", t3 - t2)
 
     const locationData: LocationData = {
         temperature: {
@@ -51,9 +47,7 @@ export const updateLocationData = async (location: Location): Promise<number> =>
     } finally {
         await client.close(); // Ensure the client is closed properly
     }
-    const t4 = Date.now()
-    console.log("Total", t4 - t1)
-    return t4 - t1//temperatureData.dbData.length + waterLevelData.dbData.length
+    return locationData
 }
 
 const updateSourceData = async (source: Source): Promise<Data[]> => {

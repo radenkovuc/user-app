@@ -3,9 +3,8 @@
 import {Button, Typography} from "@mui/material";
 
 import {Location} from "@/domain";
-import {loadLocationData} from "@/services";
 import {updateLocationData} from "@/services/db";
-import {addMessage, resetData, useAppDispatch} from "@/store";
+import {addMessage, resetData, setLocationData, useAppDispatch} from "@/store";
 
 interface Props {
     location: Location,
@@ -15,14 +14,10 @@ export const LocationActions = ({location}: Props) => {
     const dispatch = useAppDispatch();
 
     const onUpdate = async () => {
-        const newData = await updateLocationData(location)
-        void loadLocationData(location.id, dispatch)
-
-        if (newData) {
-            dispatch(addMessage(`Added ${newData} new data`))
-        } else {
-            dispatch(addMessage("No new data"))
-        }
+        dispatch(resetData())
+        const locationData = await updateLocationData(location)
+        dispatch(setLocationData(locationData))
+        dispatch(addMessage("Location data updated"))
     }
 
     return <Button onClick={onUpdate}>
