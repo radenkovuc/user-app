@@ -18,8 +18,8 @@ export const LocationActions = ({location}: Props) => {
         const newData = await updateLocationData(location)
         void loadLocationData(location.id, dispatch)
 
-        if (newData.new) {
-            dispatch(addMessage(`Added ${newData.new} new data`))
+        if (newData) {
+            dispatch(addMessage(`Added ${newData} new data`))
         } else {
             dispatch(addMessage("No new data"))
         }

@@ -16,7 +16,7 @@ const getData = (scriptText: string, sourceId: string): Data[] => {
             datetime: match[1],
             value: parseFloat(match[2]),
             sourceId
-        }))
+        })).sort((a, b) => a.datetime.localeCompare(b.datetime));
     } else {
         console.error('Failed to extract data from the niz.push lines in the HTML text.');
         return []
@@ -32,4 +32,5 @@ export const getSourceDataFromUrl = async (source: Source): Promise<Data[]> => {
     const body = await dataRaw.text()
 
     return getData(body, source.id)
+
 }

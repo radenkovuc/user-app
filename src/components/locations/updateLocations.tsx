@@ -22,7 +22,7 @@ export const UpdateLocations = () => {
 
     const update = async (l: Location) => {
         const newData = await updateLocationData(l)
-        dispatch(addMessage(`${l.name} - new: ${newData.new}, old: ${newData.old}`))
+        dispatch(addMessage(`${l.name} - new data: ${newData}`))
     }
 
     const onUpdate = async () => {
