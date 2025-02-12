@@ -30,9 +30,9 @@ export const DailyData = ({id, location}: Props) => {
     return (
         <div className={classes.dailyData}>
             <LocationHeader location={location}/>
-            <Typography>Water temperature last 7 days:</Typography>
+            <Typography>Water temperature last 3 days:</Typography>
             <TotalChart data={locationData.temperature.lastData}/>
-            <Typography>Water level last 7 days:</Typography>
+            <Typography>Water level last 3 days:</Typography>
             <TotalChart data={locationData.waterLevel.lastData}/>
             <Typography>Daily min-max water temperature:</Typography>
             <DailyChart data={locationData.temperature.dailyData}/>

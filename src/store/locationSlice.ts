@@ -4,6 +4,7 @@ import {LocationData} from "@/domain";
 
 interface LocationState {
     locationData: LocationData
+    isUpdate: boolean
 }
 
 const initialLocationData: LocationData = {
@@ -18,7 +19,8 @@ const initialLocationData: LocationData = {
 }
 
 const initialState: LocationState = {
-    locationData: initialLocationData
+    locationData: initialLocationData,
+    isUpdate: false
 };
 
 export const LocationSlice = createSlice({
@@ -29,6 +31,10 @@ export const LocationSlice = createSlice({
             state.locationData = action.payload;
         },
 
+        setIsUpdate(state, action: { payload: boolean }) {
+            state.isUpdate = action.payload;
+        },
+
         resetData(state) {
             state.locationData = initialLocationData
         }
@@ -37,5 +43,6 @@ export const LocationSlice = createSlice({
 
 export const {
     setLocationData,
+    setIsUpdate,
     resetData
 } = LocationSlice.actions;
