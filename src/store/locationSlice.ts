@@ -1,50 +1,48 @@
 import {createSlice} from "@reduxjs/toolkit";
 
-import {DailyData, Data} from "@/domain";
+import {LocationData} from "@/domain";
 
 interface LocationState {
-    temperatures: Data[]
-    waterLevels: Data[]
-    dailyTemperatures: DailyData[]
-    dailyWaterLevels: DailyData[]
+    locationData: LocationData
+    isUpdate: boolean
+}
+
+const initialLocationData: LocationData = {
+    temperature: {
+        dailyData: [],
+        lastData: []
+    },
+    waterLevel: {
+        dailyData: [],
+        lastData: []
+    }
 }
 
 const initialState: LocationState = {
-    temperatures: [],
-    waterLevels: [],
-    dailyTemperatures: [],
-    dailyWaterLevels: []
+    locationData: initialLocationData,
+    isUpdate: false
 };
 
 export const LocationSlice = createSlice({
     name: "location",
     initialState: initialState,
     reducers: {
-        setTemperatures(state, action: { payload: Data[] }) {
-            state.temperatures = action.payload;
+        setLocationData(state, action: { payload: LocationData }) {
+            state.locationData = action.payload;
         },
-        setWaterLevels(state, action: { payload: Data[] }) {
-            state.waterLevels = action.payload;
+
+        setIsUpdate(state, action: { payload: boolean }) {
+            state.isUpdate = action.payload;
         },
-        setDailyTemperatures(state, action: { payload: DailyData[] }) {
-            state.dailyTemperatures = action.payload;
-        },
-        setDailyWaterLevels(state, action: { payload: DailyData[] }) {
-            state.dailyWaterLevels = action.payload;
-        },
+
         resetData(state) {
-            state.temperatures = []
-            state.waterLevels = []
-            state.dailyTemperatures = []
-            state.dailyWaterLevels = []
+            state.locationData = initialLocationData
         }
     }
 });
 
 export const {
-    setTemperatures,
-    setWaterLevels,
-    setDailyTemperatures,
-    setDailyWaterLevels,
+    setLocationData,
+    setIsUpdate,
     resetData
 } = LocationSlice.actions;

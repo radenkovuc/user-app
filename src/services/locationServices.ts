@@ -1,9 +1,11 @@
 'use server'
 
-import {Data, Source} from "@/domain";
+import {ObjectId} from "mongodb";
+
+import {Source} from "@/domain";
 import {DBData} from "@/domain/db";
 
-const getData = (scriptText: string, sourceId: string): Data[] => {
+const getData = (scriptText: string, sourceId: string): DBData[] => {
     // Regular expression to extract the date-time and numerical values from niz.push lines
     const nizPushRegex = /niz\.push\(\['(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})',\s*(-?\d+(\.\d+)?)\]\);/g;
 
@@ -14,17 +16,17 @@ const getData = (scriptText: string, sourceId: string): Data[] => {
     if (matches.length > 0) {
         // Extracted data
         return matches.map(match => ({
-            datetime: match[1],
+            datetime: new Date(match[1].replace(" ", "T")),
             value: parseFloat(match[2]),
-            sourceId
-        }))
+            sourceId: new ObjectId(sourceId)
+        })).sort((a, b) => a.datetime.getTime() - b.datetime.getTime());
     } else {
         console.error('Failed to extract data from the niz.push lines in the HTML text.');
         return []
     }
 }
 
-export const getSourceDataFromUrl = async (source: Source): Promise<Data[]> => {
+export const getSourceDataFromUrl = async (source: Source): Promise<DBData[]> => {
     if (!source.url) {
         return []
     }
@@ -33,4 +35,5 @@ export const getSourceDataFromUrl = async (source: Source): Promise<Data[]> => {
     const body = await dataRaw.text()
 
     return getData(body, source.id)
+
 }

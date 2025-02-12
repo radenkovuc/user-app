@@ -15,12 +15,12 @@ interface Props {
 }
 
 export const LocationHeader = ({location}: Props) => {
-    const {temperatures, waterLevels, dailyTemperatures, dailyWaterLevels} = useAppSelector(s => s.location)
+    const {locationData: {temperature, waterLevel}} = useAppSelector(s => s.location)
 
-    const todayTemperature = dailyTemperatures.length ? dailyTemperatures[dailyTemperatures.length - 1] : undefined;
-    const todayWaterLevel = dailyWaterLevels.length ? dailyWaterLevels[dailyWaterLevels.length - 1] : undefined;
-    const currentTemperature = temperatures.length ? temperatures[temperatures.length - 1] : undefined;
-    const currentWaterLevel = waterLevels.length ? waterLevels[waterLevels.length - 1] : undefined;
+    const todayTemperature = temperature.dailyData.length ? temperature.dailyData[temperature.dailyData.length - 1] : undefined;
+    const todayWaterLevel = waterLevel.dailyData.length ? waterLevel.dailyData[waterLevel.dailyData.length - 1] : undefined;
+    const currentTemperature = temperature.lastData.length ? temperature.lastData[temperature.lastData.length - 1] : undefined;
+    const currentWaterLevel = waterLevel.lastData.length ? waterLevel.lastData[waterLevel.lastData.length - 1] : undefined;
 
 
     return <div className={classes.header}>

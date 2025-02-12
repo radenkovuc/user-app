@@ -2,11 +2,11 @@
 
 import {ObjectId} from "mongodb";
 
-import {DailyData, Data, Location, Source} from "@/domain";
-import {DBData, DBLocation} from "@/domain/db";
+import {DailyData, Data, Location, LocationData, Source} from "@/domain";
+import {DBData, DBLocationData} from "@/domain/db";
 
 import {getSourceDataFromUrl} from "@/services";
-import {mapData, mapDBData} from "@/mappers";
+import {mapData} from "@/mappers";
 
 import {connectToDatabase} from "./dbServices";
 
@@ -20,45 +20,65 @@ export const getData = async (id: string): Promise<Data[]> => {
     return dbData
 }
 
-export const getLocationData = async (source: Source): Promise<Data[]> => {
-    const {newData, dbData} = await updateSourceData(source)
-
-    return [...newData, ...dbData].sort((d1, d2) => d1.datetime.localeCompare(d2.datetime))
-}
-
-export const updateLocationData = async (location: Location): Promise<{ new: number, old: number }> => {
+export const updateLocationData = async (location: Location): Promise<LocationData> => {
     const temperatureData = await updateSourceData(location.temperature)
     const waterLevelData = await updateSourceData(location.waterLevel)
-    return {
-        new: temperatureData.newData.length + waterLevelData.newData.length,
-        old: temperatureData.dbData.length + waterLevelData.dbData.length
+
+    const temperatureDataByDate: DailyData[] = await getSourceDataByDate(location.temperature.id)
+    const waterLevelDataByDate: DailyData[] = await getSourceDataByDate(location.waterLevel.id)
+
+    const locationData: LocationData = {
+        temperature: {
+            lastData: temperatureData,
+            dailyData: temperatureDataByDate
+        },
+        waterLevel: {
+            lastData: waterLevelData,
+            dailyData: waterLevelDataByDate
+
+        }
     }
+
+    const client = await connectToDatabase();
+    try {
+        await client.db()
+            .collection<DBLocationData>("location-data")
+            .replaceOne({_id: new ObjectId(location.id)}, locationData, {upsert: true});
+    } finally {
+        await client.close(); // Ensure the client is closed properly
+    }
+    return locationData
 }
 
-const updateSourceData = async (source: Source): Promise<{ newData: Data[], dbData: Data[] }> => {
-    const client = await connectToDatabase()
-    const db = client.db()
-    const dbData: Data[] = await db.collection<DBData>("data").find({sourceId: new ObjectId(source.id)}, {sort: [["datetime", "asc"]]})
-        .map(d => mapData(d)).toArray()
+const updateSourceData = async (source: Source): Promise<Data[]> => {
+    const data = await getSourceDataFromUrl(source)
+    console.log('data', data.length)
 
-    let newData = await getSourceDataFromUrl(source)
-    newData = newData.filter(d => !dbData.some(db => db.datetime == d.datetime))
+    if (data.length > 0) {
+        const client = await connectToDatabase()
+        const db = client.db()
+        const dbData: DBData[] = await db.collection<DBData>("data").find({
+            sourceId: new ObjectId(source.id),
+            datetime: {$gte: data[0].datetime}
+        }, {sort: [["datetime", "asc"]]}).toArray()
+        console.log('oldestDateTime', data[0].datetime)
+        console.log('dbData', dbData.length)
+        const newData = data.filter(d => !dbData.some(db => db.datetime.getTime() === d.datetime.getTime()))
+        console.log('newData', newData.length)
 
-    if (newData.length) {
-        await db.collection<DBData>("data").insertMany(newData.map(data => mapDBData(data)))
+        if (newData.length) {
+            await db.collection<DBData>("data").insertMany(newData)
+        }
+
+        void client.close()
     }
 
-    void client.close()
-
-    return {
-        newData,
-        dbData
-    }
+    return data.map(d => mapData(d))
 }
 
 export const getSourceDataByDate = async (id: string): Promise<DailyData[]> => {
     const client = await connectToDatabase()
-    let sources: DailyData[] = await client.db().collection<DBLocation>("data").aggregate<DailyData>([
+    let sources: DailyData[] = await client.db().collection<DBData>("data").aggregate<DailyData>([
         {
             $addFields: {
                 datetime: {$toDate: "$datetime"} // Convert the date field from string to date type
