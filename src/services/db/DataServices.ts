@@ -52,7 +52,6 @@ export const updateLocationData = async (location: Location): Promise<LocationDa
 
 const updateSourceData = async (source: Source): Promise<Data[]> => {
     const data = await getSourceDataFromUrl(source)
-    console.log('data', data.length)
 
     if (data.length > 0) {
         const client = await connectToDatabase()
@@ -61,10 +60,7 @@ const updateSourceData = async (source: Source): Promise<Data[]> => {
             sourceId: new ObjectId(source.id),
             datetime: {$gte: data[0].datetime}
         }, {sort: [["datetime", "asc"]]}).toArray()
-        console.log('oldestDateTime', data[0].datetime)
-        console.log('dbData', dbData.length)
         const newData = data.filter(d => !dbData.some(db => db.datetime.getTime() === d.datetime.getTime()))
-        console.log('newData', newData.length)
 
         if (newData.length) {
             await db.collection<DBData>("data").insertMany(newData)

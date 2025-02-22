@@ -26,12 +26,10 @@ export const UpdateLocations = () => {
     }
 
     const onUpdate = async () => {
-        setLoading(true)
-        for (const l of locations) {
-            await update(l)
-        }
-        setLoading(false)
-    }
+        setLoading(true);
+        await Promise.all(locations.map(l => update(l)));
+        setLoading(false);
+    };
 
     return <div>
         <Button id="update" disabled={loading} variant="contained" onClick={onUpdate}>Update Locations</Button>
