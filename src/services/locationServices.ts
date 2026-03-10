@@ -26,6 +26,25 @@ const getData = (scriptText: string, sourceId: string): DBData[] => {
     }
 }
 
+const getNewWayData = (scriptText: string, sourceId: string): DBData[] => {
+    const regex = /\["(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})",\s*(-?\d+(?:\.\d+)?)\]/g;
+
+    const matches = Array.from(scriptText.matchAll(regex));
+
+    if (!matches.length) {
+        console.error("No data found in scriptText");
+        return [];
+    }
+
+    return matches
+        .map(m => ({
+            datetime: new Date(m[1].replace(" ", "T")),
+            value: parseFloat(m[2]),
+            sourceId: new ObjectId(sourceId)
+        }))
+        .sort((a, b) => a.datetime.getTime() - b.datetime.getTime());
+}
+
 export const getSourceDataFromUrl = async (source: Source): Promise<DBData[]> => {
     if (!source.url) {
         return []
@@ -34,6 +53,11 @@ export const getSourceDataFromUrl = async (source: Source): Promise<DBData[]> =>
     const dataRaw = await fetch(source.url, {cache: "no-cache"})
     const body = await dataRaw.text()
 
-    return getData(body, source.id)
+    let data: DBData[] = getData(body, source.id)
+    if (data === null || data.length === 0) {
+        data = getNewWayData(body, source.id)
+    }
+
+    return data
 
 }
