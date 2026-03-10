@@ -27,19 +27,27 @@ const getData = (scriptText: string, sourceId: string): DBData[] => {
 }
 
 const getNewWayData = (scriptText: string, sourceId: string): DBData[] => {
-    const regex = /\["(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})",\s*(-?\d+(?:\.\d+)?)\]/g;
+    const match = scriptText.match(/var\s+niz\s*=\s*(\[[\s\S]*?\]);/);
 
-    const matches = Array.from(scriptText.matchAll(regex));
-
-    if (!matches.length) {
-        console.error("No data found in scriptText");
+    if (!match) {
+        console.error("niz not found");
         return [];
     }
 
-    return matches
-        .map(m => ({
-            datetime: new Date(m[1].replace(" ", "T")),
-            value: parseFloat(m[2]),
+    const arrayText = match[1];
+
+    let data: [string, number][];
+    try {
+        data = JSON.parse(arrayText);
+    } catch (e) {
+        console.error("JSON parse failed", e);
+        return [];
+    }
+
+    return data
+        .map(([datetime, value]) => ({
+            datetime: new Date(datetime.replace(" ", "T")),
+            value,
             sourceId: new ObjectId(sourceId)
         }))
         .sort((a, b) => a.datetime.getTime() - b.datetime.getTime());
